@@ -7,13 +7,14 @@
 #include<conio.h>
 #include<stdlib.h>
 #include<string.h>
+#include "printg.h"
 //图形化print
 #define ON 1
 #define OFF 0
 int do_printg_s(char far * p0, int x0, int y0, int color, const char * str, va_list arg);
 int do_printg_s_cn(char far * p0, int x0, int y0, int color, int style[5], const char * str, va_list arg);
 int g_out(int x0, int y0, int color, char far *p0, int style[5]);
-void puthzf(int x, int y,int flag,int part,int color, char *s);
+//void puthzf(int x, int y,int flag,int part,int color, char *s);
 
 int printg(int x0, int y0, int color, const char *str, ...) 
 { 

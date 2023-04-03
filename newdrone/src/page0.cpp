@@ -4,37 +4,9 @@
 #include <dos.h>
 #include "printg.h"
 #include "hz.h"
-//#include "windows.h"
-//图形化输出
-
-class  Windows
-{
-public:
-	int x1;
-	int y1;
-	int x2;
-	int y2;
-	int color1;
-	int color2;
-	
-	Windows(int ix1, int iy1, int ix2, int iy2, int icolor1, int icolor2);
-};
-
-Windows::Windows(int ix1, int iy1, int ix2, int iy2, int icolor1, int icolor2)
-{
-	x1 = ix1;
-	y1 = iy1;
-	x2 = ix2;
-	y2 = iy2;
-	color1 = icolor1;
-	color2 = icolor2;
-	setfillstyle(SOLID_FILL, color1);
-	bar(x1+20, y1+20, x2+20, y2+20);
-	setfillstyle(SOLID_FILL, color2);
-	bar(x1, y1, x2, y2);
-}
-
-
+#include "cla.h"
+#include "win.h"
+//图锟轿伙拷锟斤拷锟?
 
 int initialization()
 {
@@ -66,15 +38,14 @@ int page0()
 	bar3d(180, 380, 460, 440, DARKGRAY, 0);
 	button(180, 380, 460, 440, 0);
 	printg(300, 220, 0, "title");
-	Windows win1(100, 100, 300, 250, BLACK, DARKGRAY);
-	/*
-	puthz(100, 100, 16, 26, BLACK, "无人机");
-	puthz(100, 120, 24, 34, BLACK, "无人机");
-	puthz(100, 150, 32, 42, BLACK, "无人机");
-	puthz(100, 190, 48, 58, BLACK, "无机人");
-	*/
-	printg_cn(100, 100, 0, style, "qwer%z", "威威");
-	setcolor(BLACK);
+	A B;
+	Win win1(100, 100, 300, 250, BLACK, DARKGRAY);
+	delay(500);
+	win1.update(200, 200, 400, 350, GREEN, LIGHTGREEN);
+	delay(500);
+	win1.exit();
+	printg_cn(100, 100, 0, style, "qwer%z", "喂喂喂");
+	//setcolor(BLACK);
 	//rectangle(100, 190, 139, 237);
 	while(1)
 	{
