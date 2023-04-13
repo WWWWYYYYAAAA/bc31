@@ -7,6 +7,7 @@
 
 //only XOR
 int flag=0;
+int MX, MY;
 
 int mouseinit()//初始化
 {
@@ -183,6 +184,15 @@ void newmouse(int *nx,int *ny,int *nbuttons)
 		clrmous(x0,y0);        //说明鼠标状态发生了改变
 	}
 	drawmous(*nx,*ny);
+	MX = *nx;
+	MY = *ny;
+	// int xn,yn,buttonsn;
+	// mread(&xn,&yn,&buttonsn);
+	// drawmous(xn,yn);
+	// MX = xn;
+	// MY = yn;
+	// delay(5);
+	// clrmous(xn,yn); 
 }
 
 void clrmous(int nx,int ny)//清除鼠标
@@ -198,6 +208,7 @@ void clrmous(int nx,int ny)//清除鼠标
 		}
 	}
 }
+
 void drawmous(int nx,int ny)
 {
 	if(flag==0)
@@ -216,6 +227,35 @@ int mouse_press(int x1, int y1, int x2, int y2)
 {
 	int xn,yn,buttonsn;
 	mread(&xn,&yn,&buttonsn);
+	//在框中点击，则返回1
+	if(xn > x1 
+	&&xn < x2
+	&&yn > y1
+	&&yn < y2)
+	{
+		if(buttonsn == 1)
+			return 1;
+		
+		//在框中未点击，则返回2
+		else if(buttonsn == 0)
+			return 2;
+		
+		//在框中点击右键，则返回3
+		else if(buttonsn == 2)
+			return 3;
+	}
+	else
+	{
+		return 0;
+	}
+}
+
+int mouse_press_sup(int x1, int y1, int x2, int y2, int * mx, int * my)
+{
+	int xn,yn,buttonsn;
+	mread(&xn,&yn,&buttonsn);
+	*mx = xn;
+	*my = yn;
 	//在框中点击，则返回1
 	if(xn > x1 
 	&&xn < x2

@@ -4,7 +4,7 @@
 #include "onoff.h"
 #include "printg.h"
 #include "page234.h"
-//菜单栏
+//菜单�?
 int page1()
 {
 	int nx , ny, nb, temp, part = 1;
@@ -54,13 +54,6 @@ int page1()
 			button(2, 440, 98, 477, 1);
 			return 0;
 		}
-		//refresh area
-		else if(mouse_press(0, 0, 150, 200) == 2)
-		{
-			button(0, 23, 98, 63, mousig[0]);
-			button(0, 64, 98, 104, mousig[1]);
-			button(0, 105, 98, 145, mousig[2]);
-		}
 		
 		newmouse(&nx, &ny, &nb);
 		temp = slider(617, 201, nx, ny, 20, 278, 0, 0, &signal1);
@@ -102,7 +95,6 @@ int page1()
 		{
 			nylist[0] = temp;
 		}
-		silder_depature(nylist[0], 617, 201, 20, 278, 0, 0);
 		newmouse(&nx, &ny, &nb);
 		delay(20);
 	}

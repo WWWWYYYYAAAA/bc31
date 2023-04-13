@@ -2,6 +2,8 @@
 #include <dos.h>
 #include "printg.h"
 #include "visual.h"
+#include "mouse.h"
+extern int MX, MY;
 
 void ball(int x, int y, int r, int color)
 {
@@ -12,6 +14,7 @@ void ball(int x, int y, int r, int color)
 	floodfill(x, y, color);
 	setcolor(DARKGRAY);
 	circle(x, y, r+1);
+	floodfill(x, y, DARKGRAY);
 }
 
 void bar3d(int x1, int y1, int x2, int y2, int color, int style)
@@ -45,7 +48,7 @@ void bar3d(int x1, int y1, int x2, int y2, int color, int style)
 			line(x1, y1+1, x2-1, y1+1);
 			line(x1, y1, x1, y2);
 			line(x1+1, y1, x1+1, y2-1);
-			setcolor(LIGHTGRAY);
+			setcolor(WHITE);
 			line(x1+1, y2, x2, y2);
 			line(x1+2, y2-1, x2, y2-1);
 			line(x2, y1+1, x2, y2);
@@ -59,6 +62,7 @@ int button(int x1, int y1, int x2, int y2, int state)
 	switch(state)
 	{
 		case 1:
+			clrmous(MX, MY);
 			setwritemode(COPY_PUT);
 			setcolor(0);
 			line(x1, y1, x2, y1);
@@ -144,6 +148,7 @@ int slider(int x0, int y0, int nx, int ny, int wid, int len, int direct, int sty
 	case 0:
 		if(mouse_press(x0-20, y0, x0+wid, y0+len) == 1)
 		{
+			clrmous(MX, MY);
 			*signal = 100.0 * (ny - y0) / len;
 			sliderbase(x0, y0, nx, ny, wid, len, direct, style, 1);
 			return ny;
@@ -153,7 +158,8 @@ int slider(int x0, int y0, int nx, int ny, int wid, int len, int direct, int sty
 	ny = -1;
 	return ny;
 }
-//鐢ㄤ簬娓呴櫎榧犳爣娈嬪奖
+
+//在更新鼠标后该函数弃用
 void silder_depature(int nynum, int x0, int y0, int wid, int len, int direct, int style)
 {
 		if(mouse_press(x0-20, y0, x0+wid+20, y0+len) == 2)

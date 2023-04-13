@@ -34,7 +34,7 @@ int example(float AR, float BR, int Xoffset,int Zoffset,int Yoffset, int sizeP, 
 				}
 			}
 		}
-		size = imagesize(0, 0, 150, 150);
+		//size = imagesize(0, 0, 150, 150);
 	//update
 	{
 		for(i=0; i<27; i++)
