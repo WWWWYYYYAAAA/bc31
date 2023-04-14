@@ -2,7 +2,7 @@
 #include "error.h"
 //#include <alloc.h>
 //int stream_read(char * path, int (*dronelist)[5])
-int stream_read(char * path, int far *dronelist)
+int stream_read(char * path, int far *dronelist,  int *dronenump)
 {
 	int dronenum;
 	int far * head;
@@ -14,8 +14,9 @@ int stream_read(char * path, int far *dronelist)
     }
 	fseek(fp, 0, 0);
 	head = dronelist;
-	fread(&dronenum, 2, 1, fp);
-	fread(head, 2, dronenum*5, fp);
+	fread(dronenump, 2, 1, fp);
+	fread(head, 2, (*dronenump)*5, fp);
+	//printf("num: %d", *dronenump);
 	fclose(fp);
 	return 0;
 }

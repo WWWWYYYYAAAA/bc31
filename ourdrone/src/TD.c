@@ -1,7 +1,7 @@
 #include <math.h>
 
 //3d渲染
-//旋转与偏置
+//旋转与偏�?
 int move_3d(float xin, float yin, float zin, float A, float B, int *xout, int *yout, int *zout, int Xoffset, int Yoffset, int Zoffset)
 {
 	float sA = sin(A), cA = cos(A);	//x轴转
@@ -9,9 +9,23 @@ int move_3d(float xin, float yin, float zin, float A, float B, int *xout, int *y
 	float sB = sin(B), cB = cos(B);	//z轴转
 	float xB = cB * xA - sB * yA, yB = sB * xA + cB * yA, zB = zA;
 	
-	*xout = xB + Xoffset;
-	*yout = yB + Yoffset;
-	*zout = zB + Zoffset;
+	*xout = xB*0.5 + Xoffset;
+	*yout = yB*0.5 + Yoffset;
+	*zout = zB*0.5 + Zoffset;
+	
+	return 0;
+}
+
+int move_3d_p(float xin, float yin, float zin, float A, float B, int *xout, int *yout, int *zout, int Xoffset, int Yoffset, int Zoffset, float percent)
+{
+	float sA = sin(A), cA = cos(A);	//x轴转
+	float xA = xin, yA = cA * yin + sA * zin, zA = sA * yin - cA * zin;
+	float sB = sin(B), cB = cos(B);	//z轴转
+	float xB = cB * xA - sB * yA, yB = sB * xA + cB * yA, zB = zA;
+	
+	*xout = xB*percent + Xoffset;
+	*yout = yB*percent + Yoffset;
+	*zout = zB*percent + Zoffset;
 	
 	return 0;
 }
