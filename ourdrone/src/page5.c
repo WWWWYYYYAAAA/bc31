@@ -189,11 +189,12 @@ int editpic(int *nx, int *ny, int *nb)
 		}
 		else if(mouse_press(2, 35, 118, 74) == 1) //导入图片
 		{
-			button(2, 35, 118, 74, 1);
+			clrmous(*nx, *ny);
+			button(2, 35, 118, 74, 2);
 			bar3d(121, 440, 639, 479, DARKGRAY, 1);
 			if(commandin(path, "path: ", 130, 455, 20) == 0)
 			{
-				strcpy(path, picpath);
+				strcpy(picpath, path);
 				bmpinfo(path, &w, &h);
 				if((1.0*XSIZE/w)>(1.0*YSIZE/h))
 				{
@@ -212,6 +213,7 @@ int editpic(int *nx, int *ny, int *nb)
 			}
 			setfillstyle(SOLID_FILL, LIGHTGRAY);
 			bar(121, 440, 639, 479);
+			button(2, 35, 118, 74, 0);
 		}
 		else if(mouse_press(2, 75, 118, 114) == 1)		//clear
 		{
@@ -256,7 +258,8 @@ int editpic(int *nx, int *ny, int *nb)
 		else if(mouse_press(2, 195, 118, 234) == 1)
 		{
 			int k;
-			button(2, 195, 118, 234, 1);					//导入
+			clrmous(*nx, *ny);
+			button(2, 195, 118, 234, 2);					//导入
 			bar3d(121, 440, 639, 479, DARKGRAY, 1);
 			if(commandin(path, "path: ", 130, 455, 20) == 0)
 			{
@@ -272,7 +275,9 @@ int editpic(int *nx, int *ny, int *nb)
 			}
 			setfillstyle(SOLID_FILL, LIGHTGRAY);
 			bar(121, 440, 639, 479);
+			button(2, 195, 118, 234, 0);
 		}
+
 		//edit part
 		if(edit == 1)
 		{
@@ -433,7 +438,7 @@ int editpic(int *nx, int *ny, int *nb)
 						button(2, 155, 118, 194, 0);	//保存
 						button(2, 195, 118, 234, 0);	//导入
 						//printf("%d", pixnum);
-						putbmp_zoom(140+(XSIZE-w)/2, 60+(YSIZE-h)/2, path, scale, scale); //放置背景模板
+						putbmp_zoom(140+(XSIZE-w)/2, 60+(YSIZE-h)/2, picpath, scale, scale); //放置背景模板
 						for(s=0; s<pixnum; s++)
 						{
 							ball(pixlist[s].x+XOFF, pixlist[s].z+YOFF, 3, pixlist[s].color);
@@ -496,7 +501,8 @@ int editpic(int *nx, int *ny, int *nb)
 				{
 					int k;
 					int pixn = 0;
-					button(2, 195, 118, 234, 1);					//导入
+					clrmous(*nx, *ny);
+					button(2, 195, 118, 234, 2);					//导入
 					bar3d(121, 440, 639, 479, DARKGRAY, 1);
 					//printf("%d %d\n", pixnum, pixn);
 					if(commandin(path, "path: ", 130, 455, 20) == 0)
@@ -520,6 +526,7 @@ int editpic(int *nx, int *ny, int *nb)
 					{
 						ball(pixlist[k].x+XOFF, pixlist[k].z+YOFF, 3, pixlist[k].color);
 					}
+					button(2, 195, 118, 234, 0);	
 				}
 				else if(mouse_press(2, 155, 118, 194) == 1)
 				{
@@ -527,7 +534,8 @@ int editpic(int *nx, int *ny, int *nb)
 					if(pixnum > 0) // save the file
 					{
 						char savepath[30];
-						button(2, 155, 118, 194, 1);
+						clrmous(*nx, *ny);
+						button(2, 155, 118, 194, 2);
 						bar3d(121, 440, 639, 479, DARKGRAY, 1);
 						commandin(savepath, "path: ", 130, 455, 30);
 						stream_write(savepath, &(pixlist[0].x), pixnum);
@@ -535,6 +543,7 @@ int editpic(int *nx, int *ny, int *nb)
 						bar(121, 440, 639, 479);
 						stream_read(savepath, &(pixlist[0].x), &pixnum);
 						//printf("ss %d", pixnum);
+						button(2, 155, 118, 194, 0);
 					}
 					else
 					{
@@ -543,6 +552,39 @@ int editpic(int *nx, int *ny, int *nb)
 					//for(i=0; i<pixnum; i++)
 						//free(balllist[i]);
 					//pixnum = 0;
+				}
+				else if(mouse_press(2, 35, 118, 74) == 1) //导入图片
+				{
+					int k;
+					clrmous(*nx, *ny);
+					button(2, 35, 118, 74, 2);
+					bar3d(121, 440, 639, 479, DARKGRAY, 1);
+					if(commandin(path, "path: ", 130, 455, 20) == 0)
+					{
+						strcpy(picpath, path);
+						bmpinfo(path, &w, &h);
+						if((1.0*XSIZE/w)>(1.0*YSIZE/h))
+						{
+							scale = 1.0*YSIZE/h;
+						}
+						else
+						{
+							scale = 1.0*XSIZE/w;
+						}
+						//printf("%f", scale);
+						h = h * scale;
+						w = w * scale;
+						putbmp_zoom(140+(XSIZE-w)/2, 60+(YSIZE-h)/2, path, scale, scale); //放置背景模板
+						//printf("w %d h %d", w, h);
+						edit = 1;
+				 	}
+					setfillstyle(SOLID_FILL, LIGHTGRAY);
+					bar(121, 440, 639, 479);
+					for(k=0; k<pixnum; k++)
+					{
+						ball(pixlist[k].x+XOFF, pixlist[k].z+YOFF, 3, pixlist[k].color);
+					}
+					button(2, 35, 118, 74, 0);
 				}
 
 				if(oldx != *nx || oldy != *ny)
@@ -1091,7 +1133,8 @@ int editpic(int *nx, int *ny, int *nb)
 			if(pixnum > 0) // save the file
 			{
 				char savepath[30];
-				button(2, 155, 118, 194, 1);
+				clrmous(*nx, *ny);
+				button(2, 155, 118, 194, 2);
 				bar3d(121, 440, 639, 479, DARKGRAY, 1);
 				commandin(savepath, "path: ", 130, 455, 30);
 				stream_write(savepath, &(pixlist[0].x), pixnum);
@@ -1099,6 +1142,7 @@ int editpic(int *nx, int *ny, int *nb)
 				bar(121, 440, 639, 479);
 				stream_read(savepath, &(pixlist[0].x), &pixnum);
 				//printf("ss %d", pixnum);
+				button(2, 155, 118, 194, 0);
 			}
 			else
 			{
@@ -1206,7 +1250,8 @@ int tdviwer(int *nx, int *ny, int *nb)
 		else if(mouse_press(2, 35, 118, 74) == 1) //导入
 		{
 			char path[20];
-			button(2, 35, 118, 74, 1);
+			clrmous(*nx, *ny);
+			button(2, 35, 118, 74, 2);
 			bar3d(121, 440, 639, 479, DARKGRAY, 1);
 			if(commandin(path, "path: ", 130, 455, 20) == 0)
 			{
@@ -1215,6 +1260,7 @@ int tdviwer(int *nx, int *ny, int *nb)
 			}
 			setfillstyle(SOLID_FILL, LIGHTGRAY);
 			bar(121, 440, 639, 479);
+			button(2, 35, 118, 74, 0);
 		}
 		else if(mouse_press(2, 75, 118, 114) == 1)		//clear
 		{

@@ -32,6 +32,7 @@ int error(int signal)
     setlinestyle(0, 0, 3);
     line(XEND - 30+8, YEND - 30+8, XEND-8, YEND-8);
     line(XEND-8, YEND - 30+8, XEND - 30+8, YEND-8);
+    setlinestyle(0, 0, 1);
     switch (signal)
     {
     case 1:
