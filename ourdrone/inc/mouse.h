@@ -7,7 +7,7 @@ int mouseinit(void);//初始�?
 void mread(int *,int *,int*);//改坐标不�?
 void clrmous(int x,int y);//清除鼠标
 void drawmous(int x,int y);//画鼠�?
-void newmouse(int *nx,int *ny,int *nbuttons);   //更新鼠标
+int newmouse(int *nx,int *ny,int *nbuttons);   //更新鼠标
 int mouse_press_sup(int x1, int y1, int x2, int y2, int * mx, int * my);
 
 #endif

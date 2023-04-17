@@ -1,6 +1,7 @@
 {
     "files.associations": {
         "BMP.C": "cpp",
-        "error.h": "c"
+        "error.h": "c",
+        "graphics.h": "c"
     }
 }

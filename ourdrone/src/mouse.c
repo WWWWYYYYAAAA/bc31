@@ -167,14 +167,15 @@ DESCRIPTION: 鼠标状态发生变化则更新鼠标
 INPUT: nx,ny,nbuttons
 RETURN: 无
 ********************************************/
-void newmouse(int *nx,int *ny,int *nbuttons)
+int newmouse(int *nx,int *ny,int *nbuttons)
 {
-	int xn,yn,buttonsn;
+	int xn, yn, buttonsn, flag = 0;
 	int x0=*nx,y0=*ny,buttons0=*nbuttons;
 	mread(&xn,&yn,&buttonsn);
 	*nbuttons = buttonsn;
 	if(*nx != xn && *ny != yn)
 	{
+		//printf("1");
 		*nx = xn;
 		*ny = yn;
 		if(buttons0 == *nbuttons)
@@ -182,6 +183,7 @@ void newmouse(int *nx,int *ny,int *nbuttons)
 		if(xn == x0 && yn == y0 && buttonsn == buttons0)
 			return;            //鼠标状态不变则直接返回S
 		clrmous(x0,y0);        //说明鼠标状态发生了改变
+		flag = 1;
 	}
 	drawmous(*nx,*ny);
 	MX = *nx;
@@ -193,6 +195,7 @@ void newmouse(int *nx,int *ny,int *nbuttons)
 	// MY = yn;
 	// delay(5);
 	// clrmous(xn,yn); 
+	return flag;
 }
 
 void clrmous(int nx,int ny)//清除鼠标
@@ -256,13 +259,13 @@ int mouse_press_sup(int x1, int y1, int x2, int y2, int * mx, int * my)
 	mread(&xn,&yn,&buttonsn);
 	*mx = xn;
 	*my = yn;
-	//在框中点击，则返回1
+	
 	if(xn > x1 
 	&&xn < x2
 	&&yn > y1
 	&&yn < y2)
 	{
-		if(buttonsn == 1)
+		if(buttonsn == 1)//在框中点击，则返回1
 			return 1;
 		
 		//在框中未点击，则返回2

@@ -4,7 +4,7 @@
 //int stream_read(char * path, int (*dronelist)[5])
 int stream_read(char * path, int far *dronelist,  int *dronenump)
 {
-	int dronenum;
+	int dronenum, k;
 	int far * head;
 	FILE * fp;
 	if ((fp = fopen(path, "rb")) == NULL)

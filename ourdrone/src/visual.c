@@ -8,13 +8,18 @@ extern int MX, MY;
 void ball(int x, int y, int r, int color)
 {
 	setwritemode(COPY_PUT);
-	setcolor(color);
+	//setcolor(color);
 	setfillstyle(SOLID_FILL, color);
+	//circle(x, y, r);
+	//floodfill(x, y, color);
+	//setcolor(DARKGRAY);
+	//circle(x, y, r+2);
+	//floodfill(x, y, DARKGRAY);
+	fillellipse(x, y, r, r);
+	setwritemode(XOR_PUT);
+	setcolor(color);
 	circle(x, y, r);
-	floodfill(x, y, color);
-	setcolor(DARKGRAY);
-	circle(x, y, r+1);
-	floodfill(x, y, DARKGRAY);
+	setwritemode(COPY_PUT);
 }
 
 void bar3d(int x1, int y1, int x2, int y2, int color, int style)
@@ -89,6 +94,7 @@ int button(int x1, int y1, int x2, int y2, int state)
 			line(x2-1, y1+2, x2-1, y2);
 			break;
 		case 2:
+			clrmous(MX, MY);
 			setwritemode(COPY_PUT);
 			setcolor(0);
 			line(x1, y1, x2, y1);

@@ -13,7 +13,8 @@ int commandin(char * str, char *illu, int x, int y, int length)
 	{
 		key = bioskey(0);
 		ch =  key-(key>>8<<8);
-		if(ch == 13)
+		//printf("%d\n", ch);
+		if(ch == 13)//enter
 		{
 			str[i] = 0;
 			break;
@@ -35,9 +36,9 @@ int commandin(char * str, char *illu, int x, int y, int length)
 			bar(x+len*8+i*8, y-5, x+len*8+8+i*8, y+16);
 			continue;
 		}
-		else if(ch == 27)
+		else if(ch == 27)//esc
 		{
-			return 0;
+			return -1;
 		}
 
 		if(i>=length-1)

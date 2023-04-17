@@ -18,11 +18,11 @@ int move_3d(float xin, float yin, float zin, float A, float B, int *xout, int *y
 
 int move_3d_p(float xin, float yin, float zin, float A, float B, int *xout, int *yout, int *zout, int Xoffset, int Yoffset, int Zoffset, float percent)
 {
-	float sA = sin(A), cA = cos(A);	//x轴转
+	float sA = -sin(A), cA = -cos(A);	//x轴转
 	float xA = xin, yA = cA * yin + sA * zin, zA = sA * yin - cA * zin;
 	float sB = sin(B), cB = cos(B);	//z轴转
 	float xB = cB * xA - sB * yA, yB = sB * xA + cB * yA, zB = zA;
-	
+
 	*xout = xB*percent + Xoffset;
 	*yout = yB*percent + Yoffset;
 	*zout = zB*percent + Zoffset;
