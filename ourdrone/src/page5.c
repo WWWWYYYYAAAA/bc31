@@ -533,6 +533,10 @@ int editpic(int *nx, int *ny, int *nb)
 								{
 									char* str1[10], str2[10], str3[10];
 									col = atoi(str);
+									if(col==-1)
+									{
+										col = pixlist[i].color;
+									}
 									bar3d(121, 440, 639, 479, DARKGRAY, 1);
 									if(commandin(str1, "xp: ", 130, 455, 10) == 0)
 									{
@@ -586,7 +590,7 @@ int editpic(int *nx, int *ny, int *nb)
 										
 										//pixlist[i].id = i;
 										setfillstyle(SOLID_FILL, RED);
-										bar(80, 340, 88, 348);
+										bar(100, 340, 108, 348);
 										printg_cn(10, 350, WHITE, style, "xp= %d", pixlist[i].x);
 										printg_cn(10, 370, WHITE, style, "zp= %d", pixlist[i].y);
 										printg_cn(10, 360, WHITE, style, "yp= %d", pixlist[i].z);
@@ -715,7 +719,7 @@ int editpic(int *nx, int *ny, int *nb)
 							pixlist[pixnum].color = col;
 							pixlist[pixnum].id = pixnum;
 							setfillstyle(SOLID_FILL, RED);
-							bar(80, 340, 88, 348);
+							bar(100, 340, 108, 348);
 							printg_cn(10, 350, WHITE, style, "xp= %d", pixlist[pixnum].x);
 							printg_cn(10, 360, WHITE, style, "yp= %d", pixlist[pixnum].z);
 							while (1)
@@ -827,7 +831,7 @@ int editpic(int *nx, int *ny, int *nb)
 								pixlist[pixnum].color = col;
 								pixlist[pixnum].id = pixnum;
 								setfillstyle(SOLID_FILL, RED);
-								bar(80, 340, 88, 348);
+								bar(100, 340, 108, 348);
 								printg_cn(10, 350, WHITE, style, "xp= %d", pixlist[pixnum].x);
 								printg_cn(10, 370, WHITE, style, "zp= %d", pixlist[pixnum].y);
 								printg_cn(10, 360, WHITE, style, "yp= %d", pixlist[pixnum].z);
@@ -1180,6 +1184,7 @@ int tdviwer(int *nx, int *ny, int *nb)
 			A = 0;
 			B = 0;
 			update = 1;
+			percent = 1;
 		}
 		else if(mouse_press(600, 220, 639, 259) == 1)
 		{
@@ -1256,10 +1261,25 @@ int tdtrans(int *nx, int *ny, int *nb)
 	PIX pixlist[400];
 	float A = 0, B = 0, percent = 1;
 	int X, Y, Z;
+	button(2, 440, 118, 477, 0); 	//退出
+
 	printg_cn(45, 55, 0, style, "%Z", "导入"); 
 	printg_cn(45, 95, 0, style, "%Z", "清空");
 	button(2, 35, 118, 74, 0); 		//导入
 	button(2, 75, 118, 114, 0); 	//清空
+	//
+	printg_cn(45, 135, 0, style, "%Z", "位置");
+	printg_cn(45, 175, 0, style, "%z", "角度");
+	printg_cn(45, 215, 0, style, "%z", "拉伸");
+	printg_cn(45, 215, 0, style, "%z", "旋转");
+
+	//putbmp(150, 50, "./pic/hust.bmp");
+	//button(600, 440, 639, 479, 0);
+	button(2, 115, 118, 154, 0);	//直接编辑
+	button(2, 155, 118, 194, 0);	//保存
+	button(2, 195, 118, 234, 0);	//导入
+	button(2, 235, 118, 275, 0);	//导入
+	//
 	setcolor(LIGHTGRAY);
 	rectangle(140-2, 60-2, 580+2, 420+2);
 	bar3d(140, 60, 580, 420, DARKGRAY, 1);
@@ -1331,6 +1351,7 @@ int tdtrans(int *nx, int *ny, int *nb)
 			//edit = 1;
 			bar3d(140, 60, 580, 420, DARKGRAY, 1);
         }
+
 		if(mouse_press(600, 100, 639, 139) == 1)	//RO
 		{
 			if(RO == 0)
@@ -1360,6 +1381,7 @@ int tdtrans(int *nx, int *ny, int *nb)
 			A = 0;
 			B = 0;
 			update = 1;
+			percent = 1;
 		}
 		else if(mouse_press(600, 220, 639, 259) == 1)
 		{
@@ -1540,6 +1562,7 @@ int tdpreviwer(int *nx, int *ny, int *nb, PIX *pixlist, int pixnum)
 			A = 0;
 			B = 0;
 			update = 1;
+			percent = 1;
 		}
 		else if(mouse_press(600, 220, 639, 259) == 1)
 		{

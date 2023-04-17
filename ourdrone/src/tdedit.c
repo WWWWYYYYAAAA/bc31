@@ -424,6 +424,10 @@ int tdedit(int *nx, int *ny, int *nb)
 								{
 									char* str1[10], str2[10], str3[10];
 									col = atoi(str);
+									if(col==-1)
+									{
+										col = pixlist[i].color;
+									}
 									bar3d(121, 440, 639, 479, DARKGRAY, 1);
 									if(commandin(str1, "xp: ", 130, 455, 10) == 0)
 									{
@@ -477,7 +481,7 @@ int tdedit(int *nx, int *ny, int *nb)
 										
 										//pixlist[i].id = i;
 										setfillstyle(SOLID_FILL, RED);
-										bar(80, 340, 88, 348);
+										bar(100, 340, 108, 348);
 										printg_cn(10, 350, WHITE, style, "xp= %d", pixlist[i].x);
 										printg_cn(10, 370, WHITE, style, "zp= %d", pixlist[i].y);
 										printg_cn(10, 360, WHITE, style, "yp= %d", pixlist[i].z);
@@ -610,7 +614,7 @@ int tdedit(int *nx, int *ny, int *nb)
 								pixlist[pixnum].color = col;
 								pixlist[pixnum].id = pixnum;
 								setfillstyle(SOLID_FILL, RED);
-								bar(80, 340, 88, 348);
+								bar(100, 340, 108, 348);
 								printg_cn(10, 350, WHITE, style, "xp= %d", pixlist[pixnum].x);
 								printg_cn(10, 370, WHITE, style, "zp= %d", pixlist[pixnum].y);
 								printg_cn(10, 360, WHITE, style, "yp= %d", pixlist[pixnum].z);
@@ -733,7 +737,7 @@ int tdedit(int *nx, int *ny, int *nb)
 								pixlist[pixnum].color = col;
 								pixlist[pixnum].id = pixnum;
 								setfillstyle(SOLID_FILL, RED);
-								bar(80, 340, 88, 348);
+								bar(100, 340, 108, 348);
 								printg_cn(10, 350, WHITE, style, "xp= %d", pixlist[pixnum].x);
 								printg_cn(10, 370, WHITE, style, "zp= %d", pixlist[pixnum].y);
 								printg_cn(10, 360, WHITE, style, "yp= %d", pixlist[pixnum].z);

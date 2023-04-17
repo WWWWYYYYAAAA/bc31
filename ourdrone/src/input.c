@@ -13,7 +13,17 @@ int commandin(char * str, char *illu, int x, int y, int length)
 	{
 		key = bioskey(0);
 		ch =  key-(key>>8<<8);
-		printf("%d\n", ch);
+		key = key>>8;
+		//printf("%d\n", ch);
+		if(key == 72||key == 80||key == 75|| key == 77)
+		{
+			setfillstyle(SOLID_FILL, WHITE);
+			bar(x+len*8+i*8, y-5, x+len*8+8+i*8, y+16);
+			delay(50);
+			setfillstyle(SOLID_FILL, DARKGRAY);
+			bar(x+len*8+i*8, y-5, x+len*8+8+i*8, y+16);
+			continue;
+		}
 		if(ch == 13)//enter
 		{
 			str[i] = 0;
@@ -61,13 +71,23 @@ int commandin(char * str, char *illu, int x, int y, int length)
 int confirm()
 {
 	int style[5] = {0, 2, 0, 0, 1};
-	int key, i=0;
+	int key, i=0, len = 8, x = 130, y = 455;
 	char ch, com[10]={0};
 	printg_cn(130, 455, WHITE, style, "yes/no: ");
 	while (1)
 	{
 		key = bioskey(0);
 		ch =  key-(key>>8<<8);
+		key = key>>8;
+		if(key == 72||key == 80||key == 75|| key == 77)
+		{
+			setfillstyle(SOLID_FILL, WHITE);
+			bar(x+len*8+i*8, y-5, x+len*8+8+i*8, y+16);
+			delay(50);
+			setfillstyle(SOLID_FILL, DARKGRAY);
+			bar(x+len*8+i*8, y-5, x+len*8+8+i*8, y+16);
+			continue;
+		}
 		if(ch == 13)//enter
 		{
 			com[i] = 0;
