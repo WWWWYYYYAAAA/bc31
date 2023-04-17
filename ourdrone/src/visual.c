@@ -17,7 +17,7 @@ void ball(int x, int y, int r, int color)
 	//floodfill(x, y, DARKGRAY);
 	fillellipse(x, y, r, r);
 	setwritemode(XOR_PUT);
-	setcolor(color);
+	setcolor(WHITE);
 	circle(x, y, r);
 	setwritemode(COPY_PUT);
 }

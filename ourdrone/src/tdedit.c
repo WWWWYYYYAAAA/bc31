@@ -40,7 +40,7 @@ int tdedit(int *nx, int *ny, int *nb)
 	int style[5] = {0, 2, 0, 0, 1}, h, w, edit = 0, buffsize, pixnum = 0;
 	char path[20] = {0};
 	PIX pixlist[200];
-	float scale;
+	float scale = 1;
 	void far * balllist[200];
 	void far * ballbuff;
 	buffsize = imagesize(0, 0, 8, 8);
@@ -78,7 +78,7 @@ int tdedit(int *nx, int *ny, int *nb)
 		{
 			button(2, 35, 118, 74, 1);
 			bar3d(121, 440, 639, 479, DARKGRAY, 1);
-			if(picload(path) == 0)
+			if(commandin(path, "path: ", 130, 455, 20) == 0)
 			{
 				bmpinfo(path, &w, &h);
 				if((1.0*XSIZE/w)>(1.0*YSIZE/h))
@@ -171,7 +171,8 @@ int tdedit(int *nx, int *ny, int *nb)
             printg_cn(608, 200, BLACK, style, "DEL");
 			button(600, 220, 639, 259, 0); 	//PIXIDVIEW
 			printg_cn(608, 240, BLACK, style, "PIX");
-			button(600, 260, 639, 299, 0); 	//功能栏
+			button(600, 260, 639, 299, 0); 	//preview
+			printg_cn(608, 280, BLACK, style, "PRV");
 			button(600, 300, 639, 340, 0); 	//功能栏
 			bar3d(121, 440, 639, 479, DARKGRAY, 1);
 			// commandin(str, "z: ", 130, 455, 20);
@@ -180,17 +181,21 @@ int tdedit(int *nx, int *ny, int *nb)
 			bar(121, 440, 639, 479);
 			//printf("%d", ZL);
 			bar3d(2, 300, 118, 439, DARKGRAY, 1);//scsreen
-			for(k=0; k<pixnum; k++)
+			if(pixnum>0)
 			{
-				//printf("12\n");
-				ballbuff = farmalloc(buffsize);
-				getimage(pixlist[k].x+XOFF-4, pixlist[k].z+YOFF-4, pixlist[k].x+XOFF+4, pixlist[k].z+YOFF+4, ballbuff);
-				if((pixlist[k].x+140>145&&pixlist[k].x+140<575)&&(pixlist[k].z+60>65&&pixlist[k].z+60<415))
+				for(k=0; k<pixnum; k++)
 				{
-					ball(pixlist[k].x+140, pixlist[k].z+60, 3, pixlist[k].color);
+					//printf("12\n");
+					ballbuff = farmalloc(buffsize);
+					getimage(pixlist[k].x+XOFF-4, pixlist[k].z+YOFF-4, pixlist[k].x+XOFF+4, pixlist[k].z+YOFF+4, ballbuff);
+					if((pixlist[k].x+140>145&&pixlist[k].x+140<575)&&(pixlist[k].z+60>65&&pixlist[k].z+60<415))
+					{
+						ball(pixlist[k].x+140, pixlist[k].z+60, 3, pixlist[k].color);
+					}
+					//printf("%d %d %d\n", pixlist[k].x, pixlist[k].y, pixlist[k].z);
 				}
-				//printf("%d %d %d\n", pixlist[k].x, pixlist[k].y, pixlist[k].z);
 			}
+			
 			while (1)										//绘制点位
 			{
 				int backout;
@@ -261,9 +266,60 @@ int tdedit(int *nx, int *ny, int *nb)
 					delay(200);
 					
 				}
-				else if(mouse_press(600, 260, 639, 299) == 1)
+				else if(mouse_press(600, 260, 639, 299) == 1)	//preview
 				{
-					button(600, 260, 639, 299, 1);
+					{
+						button(600, 260, 639, 299, 1);
+						setfillstyle(SOLID_FILL, LIGHTGRAY);
+						bar(595, 100, 639, 345);	//遮住原来的功能栏
+						bar(2, 34, 118, 477);		//遮住原来的操作栏
+						setfillstyle(SOLID_FILL, RED);
+						bar(2, 440, 118, 477);
+						button(2 , 440, 118, 477, 1);
+						printg_cn(30, 460, WHITE, style, "%z", "退出预览");
+					}	
+					tdpreviwer(nx, ny, nb, pixlist, pixnum);
+					//还原
+					{
+						setfillstyle(SOLID_FILL, RED);
+						bar(2, 440, 118, 477);
+						printg_cn(30, 460, WHITE, style, "%z", "退出绘点");
+						//编辑功能栏
+						button(600, 100, 639, 139, 0); 	//笔
+						printg_cn(612, 120, BLACK, style, "%z", "笔");
+						button(600, 140, 639, 179, 0); 	//xyz
+						printg_cn(608, 160, BLACK, style, "XYZ");
+						button(600, 180, 639, 219, 0); 	//del
+						printg_cn(608, 200, BLACK, style, "DEL");
+						button(600, 220, 639, 259, 0); 	//PIXIDVIEW
+						printg_cn(608, 240, BLACK, style, "PIX");
+						button(600, 260, 639, 299, 0); 	//preview
+						printg_cn(608, 280, BLACK, style, "PRV");
+						button(600, 300, 639, 340, 0); 	//功能栏
+						bar3d(121, 440, 639, 479, DARKGRAY, 1);
+						// commandin(str, "z: ", 130, 455, 20);
+						// YL = atoi(str);
+						setfillstyle(SOLID_FILL, LIGHTGRAY);
+						bar(121, 440, 639, 479);
+						//printf("%d", ZL);
+						bar3d(2, 300, 118, 439, DARKGRAY, 1);//scsreen
+						setcolor(BLACK);
+						//rectangle(2, 34, 118, 74);
+						printg_cn(30, 55, 0, style, "%Z", "导入图片"); 
+						//rectangle(2, 74, 118, 114);
+						printg_cn(45, 95, 0, style, "%Z", "清空");
+						printg_cn(30, 135, 0, style, "%Z", "直接编辑");
+						printg_cn(45, 175, 0, style, "%z", "保存");
+						printg_cn(45, 215, 0, style, "%z", "导入");
+						//putbmp(150, 50, "./pic/hust.bmp");
+						//button(600, 440, 639, 479, 0);
+						button(2, 440, 118, 477, 0); 	//退出
+						button(2, 35, 118, 74, 0); 		//导入
+						button(2, 75, 118, 114, 0); 	//清空
+						button(2, 115, 118, 154, 0);	//直接编辑
+						button(2, 155, 118, 194, 0);	//保存
+						button(2, 195, 118, 234, 0);	//导入
+					}
 				}
 				else if(mouse_press(600, 300, 639, 340) == 1)
 				{
@@ -862,8 +918,8 @@ int tdedit(int *nx, int *ny, int *nb)
 			{
 				error(2);
 			}
-			for(i=0; i<pixnum; i++)
-				free(balllist[i]);
+			//for(i=0; i<pixnum; i++)
+				//free(balllist[i]);
 			//pixnum = 0;
 		}
 		newmouse(nx, ny, nb);

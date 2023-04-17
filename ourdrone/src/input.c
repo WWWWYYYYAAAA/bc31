@@ -13,7 +13,7 @@ int commandin(char * str, char *illu, int x, int y, int length)
 	{
 		key = bioskey(0);
 		ch =  key-(key>>8<<8);
-		//printf("%d\n", ch);
+		printf("%d\n", ch);
 		if(ch == 13)//enter
 		{
 			str[i] = 0;
@@ -94,7 +94,6 @@ int confirm()
 		{
 			return 0;
 		}
-		//printf("%d", ch);
 		if(i>=9)
 		{
 			i = 9;
