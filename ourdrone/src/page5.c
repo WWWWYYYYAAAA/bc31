@@ -48,9 +48,9 @@ int page5()
 	button(321, 0, 400, 30, 0);
 	button(2, 440, 118, 477, 0);
 	printg_cn(10, 15, BLACK, style, "%z", "平面编辑");
-	printg_cn(90, 15, BLACK, style, "%z", "三维编辑");
-	printg_cn(170, 15, BLACK, style, "%z", "三维预览");
-	printg_cn(250, 15, BLACK, style, "%z", "三维处理");
+	//printg_cn(90, 15, BLACK, style, "%z", "三维编辑");
+	printg_cn(90, 15, BLACK, style, "%z", "三维预览");
+	printg_cn(170, 15, BLACK, style, "%z", "三维处理");
 	setcolor(WHITE);
 	rectangle(140-2, 60-2, 580+2, 420+2); //作图区
 	clrmous(ny, nx);
@@ -119,16 +119,18 @@ int page5()
 		break;
 		case 2:
 			//clrmous(nx, ny);
-			tdedit(&nx, &ny, &nb);
+			//tdedit(&nx, &ny, &nb);
+			tdviwer(&nx, &ny, &nb);
 			button(81, 0, 160, 30, 0);
 		break;
 		case 3:
 			//clrmous(nx, ny);
-			tdviwer(&nx, &ny, &nb);
+			//tdviwer(&nx, &ny, &nb);
+			tdtrans(&nx, &ny, &nb);
 			button(161, 0, 240, 30, 0);
 		break;
 		case 4:
-			tdtrans(&nx, &ny, &nb);
+			//tdtrans(&nx, &ny, &nb);
 			button(241, 0, 320, 30, 0);
 		break;
 		case 5:
