@@ -16,10 +16,7 @@
 #include "page5.h"
 #include "tdedit.h"
 
-#define XOFF 140
-#define YOFF 60
-#define XSIZE 440
-#define YSIZE 360
+
 extern MX, MY;
 
 //寮�濮嬬晫闈?
@@ -290,7 +287,7 @@ int editpic(int *nx, int *ny, int *nb)
 		if(edit == 1)
 		{
 			int pen = 0, xyz = 0, del = 0, pix = 0;
-			int YL, oldx = -1, oldy = -1, k;
+			int YL=0, oldx = -1, oldy = -1, k;
 			char str[20] = {0};
 			printg_cn(30, 460, WHITE, style, "%z", "退出绘点");
 			//编辑功能栏
@@ -306,8 +303,8 @@ int editpic(int *nx, int *ny, int *nb)
 			printg_cn(608, 280, BLACK, style, "PRV");
 			button(600, 300, 639, 340, 0); 	//功能栏
 			bar3d(121, 440, 639, 479, DARKGRAY, 1);
-			// commandin(str, "z: ", 130, 455, 20);
-			// YL = atoi(str);
+			commandin(str, "z: ", 130, 455, 20);
+			YL = atoi(str);
 			setfillstyle(SOLID_FILL, LIGHTGRAY);
 			bar(121, 440, 639, 479);
 			//printf("%d", ZL);
@@ -530,10 +527,10 @@ int editpic(int *nx, int *ny, int *nb)
 							edit = 1;
 					}
 					//printf("%d %d\n", pixnum, pixn);
+					clrmous(*nx, *ny);
 					for(k = pixnum; k<pixnum+pixn; k++)
 					{
 						ballbuff = farmalloc(buffsize);
-						clrmous(*nx, *ny);
 						getimage(pixlist[k].x-4+XOFF, pixlist[k].z-4+YOFF, pixlist[k].x+4+XOFF, pixlist[k].z+4+YOFF, ballbuff);
 						pixlist[k].id +=pixnum;
 						balllist[k] = ballbuff;
@@ -1218,7 +1215,6 @@ int picload(char * path)	//弃用
 	return 0;
 }
 
-
 int tdviwer(int *nx, int *ny, int *nb)
 {
 	int style[5] = {0, 2, 0, 0, 1}, show = 0, update = 1, pixnum, i, RO = 0, PO = 0, oldx, oldy, DX = 0, DY = 0;
@@ -1404,9 +1400,9 @@ int tdviwer(int *nx, int *ny, int *nb)
 
 int tdtrans(int *nx, int *ny, int *nb)
 {
-	int style[5] = {0, 2, 0, 0, 1}, show = 0, update = 1, pixnum, i, RO = 0, PO = 0, oldx, oldy, DX = 0, DY = 0;
+	int style[5] = {0, 2, 0, 0, 1}, show = 0, update = 1, pixnum = 0, i, RO = 0, PO = 0, SP = 0, oldx, oldy, DX = 0, DY = 0;
 	PIX pixlist[400];
-	float A = 0, B = 0, percent = 1;
+	float A = 0, B = 0, C = 0, percent = 1;
 	int X, Y, Z;
 	button(2, 440, 118, 477, 0); 	//退出
 
@@ -1419,29 +1415,33 @@ int tdtrans(int *nx, int *ny, int *nb)
 	printg_cn(45, 175, 0, style, "%z", "角度");
 	printg_cn(45, 215, 0, style, "%z", "拉伸");
 	printg_cn(45, 255, 0, style, "%z", "旋转");
-	printg_cn(45, 295, 0, style, "%z", "合并");
+	printg_cn(45, 295, 0, style, "%z", "保存");
+	printg_cn(45, 335, 0, style, "%z", "刷新");
 	//putbmp(150, 50, "./pic/hust.bmp");
 	//button(600, 440, 639, 479, 0);
 	button(2, 115, 118, 154, 0);	//位置
 	button(2, 155, 118, 194, 0);	//角度
 	button(2, 195, 118, 234, 0);	//拉伸
 	button(2, 235, 118, 274, 0);	//旋转
-	button(2, 275, 118, 314, 0);	//合并
+	//button(2, 275, 118, 314, 0);	//合并
+	button(2, 315, 118, 355, 0);	//刷新
+	button(2, 275, 118, 314, 0);
 	//
 	setcolor(LIGHTGRAY);
 	rectangle(140-2, 60-2, 580+2, 420+2);
 	bar3d(140, 60, 580, 420, DARKGRAY, 1);
 	printg_cn(612, 120, BLACK, style, "RO");
 	printg_cn(612, 160, BLACK, style, "PO");
-	printg_cn(612, 200, BLACK, style, "RE");
-	printg_cn(616, 240, BLACK, style, "+");
-	printg_cn(616, 280, BLACK, style, "-");
+	printg_cn(612, 200, BLACK, style, "SP");
+	printg_cn(612, 240, BLACK, style, "RE");
+	printg_cn(616, 280, BLACK, style, "+");
+	printg_cn(616, 320, BLACK, style, "-");
 	button(600, 100, 639, 139, 0); 	//RO
 	button(600, 140, 639, 179, 0); 	//PO
-	button(600, 180, 639, 219, 0); 	//RE
-	button(600, 220, 639, 259, 0); 	//+
-	button(600, 260, 639, 299, 0); 	//-
-	button(600, 300, 639, 340, 0); 	//功能栏
+	button(600, 180, 639, 219, 0); 	//SP
+	button(600, 220, 639, 259, 0); 	//RE
+	button(600, 260, 639, 299, 0); 	//+
+	button(600, 300, 639, 340, 0); 	//-
 	while (1)
 	{
 		if(mouse_press(2, 440, 118, 477) == 1)//退出
@@ -1462,15 +1462,38 @@ int tdtrans(int *nx, int *ny, int *nb)
 		else if(mouse_press(2, 35, 118, 74) == 1) //导入
 		{
 			char path[20];
-			button(2, 35, 118, 74, 1);
+			int k, pixn;
+			button(2, 35, 118, 74, 2);
 			bar3d(121, 440, 639, 479, DARKGRAY, 1);
 			if(commandin(path, "path: ", 130, 455, 20) == 0)
 			{
-				if(stream_read(path, pixlist, &pixnum)!=-1)
+				if(stream_read(path, pixlist+pixnum, &pixn)!=-1)
 					show = 1;
 			}
+			for(k = pixnum; k<pixnum+pixn; k++)
+			{
+				pixlist[k].id += pixnum;
+			}
+			pixnum += pixn;
+			/*
+			if(commandin(path, "path: ", 130, 455, 20) == 0)
+			{
+				if(stream_read(path, pixlist+pixnum, &pixn)!=-1)
+					edit = 1;
+			}
+			//printf("%d %d\n", pixnum, pixn);
+			for(k = pixnum; k<pixnum+pixn; k++)
+			{
+				ballbuff = farmalloc(buffsize);
+				clrmous(*nx, *ny);
+				getimage(pixlist[k].x-4+XOFF, pixlist[k].z-4+YOFF, pixlist[k].x+4+XOFF, pixlist[k].z+4+YOFF, ballbuff);
+				pixlist[k].id +=pixnum;
+				balllist[k] = ballbuff;
+			}
+			*/
 			setfillstyle(SOLID_FILL, LIGHTGRAY);
 			bar(121, 440, 639, 479);
+			button(2, 35, 118, 74, 1);
 		}
 		else if(mouse_press(2, 75, 118, 114) == 1)		//clear
 		{
@@ -1488,6 +1511,7 @@ int tdtrans(int *nx, int *ny, int *nb)
 				setfillstyle(SOLID_FILL, LIGHTGRAY);
 				bar(121, 440, 639, 479);
 			}
+			button(2, 35, 118, 74, 1);
 		}
 		else if(mouse_press(639 - 30,64 - 30, 639, 64) == 1 && error(0))	//error
         {
@@ -1498,6 +1522,7 @@ int tdtrans(int *nx, int *ny, int *nb)
 			//rectangle(140-2, 60-2, 580+2, 420+2); 
 			//edit = 1;
 			bar3d(140, 60, 580, 420, DARKGRAY, 1);
+			update = 1;
         }
 
 		if(mouse_press(600, 100, 639, 139) == 1)	//RO
@@ -1517,30 +1542,46 @@ int tdtrans(int *nx, int *ny, int *nb)
 				PO = 1;
 			else if(PO == 1)
 				PO = 0;
-				clrmous(*nx, *ny);
+			clrmous(*nx, *ny);
 			button(600, 140, 639, 179, 2*PO);
 			delay(200);
 		}
-		else if(mouse_press(600, 180, 639, 219) == 1)	//RE
+		else if(mouse_press(600, 180, 639, 219) == 1)	//SP
 		{
 			button(600, 180, 639, 219, 1);
+			if(SP == 0)
+			{
+				SP = 1;
+				RO = 0;
+				PO = 0;
+			}
+			else if(SP == 1)
+				PO = 0;
+			clrmous(*nx, *ny);
+			button(600, 140, 639, 179, 2*PO);
+			delay(200);
+		}
+		else if(mouse_press(600, 220, 639, 259) == 1)	//RE
+		{
+			button(600, 220, 639, 259, 1);
 			DX = 0;
 			DY = 0;
 			A = 0;
 			B = 0;
 			update = 1;
 			percent = 1;
+			
 		}
-		else if(mouse_press(600, 220, 639, 259) == 1)
-		{
-			button(600, 220, 639, 259, 1);
-			percent += 0.05;
-			update = 1;
-
-		}
-		else if(mouse_press(600, 260, 639, 299) == 1)
+		else if(mouse_press(600, 260, 639, 299) == 1)	//+
 		{
 			button(600, 260, 639, 299, 1);
+			percent += 0.05;
+			update = 1;
+			
+		}
+		else if(mouse_press(600, 300, 639, 340) == 1)	//-
+		{
+			button(600, 300, 639, 340, 1);
 			percent -= 0.05;
 			if(percent<0.05)
 			{
@@ -1548,20 +1589,325 @@ int tdtrans(int *nx, int *ny, int *nb)
 			}
 			update = 1;
 		}
-		else if(mouse_press(600, 300, 639, 340) == 1)
-		{
-			button(600, 300, 639, 340, 1);
-		}
 		
-		// if(show == 1)
-		// {
-		// 	button(2, 115, 118, 154, 0);	//位置
-		// 	button(2, 155, 118, 194, 0);	//角度
-		// 	button(2, 195, 118, 234, 0);	//拉伸
-		// 	button(2, 235, 118, 274, 0);	//旋转
-		// 	button(2, 275, 118, 314, 0);	//合并
-			
-		// }
+		if(show == 1)
+		{
+			if(mouse_press(2, 115, 118, 154) == 1)
+			{
+				char strx[10], stry[10], strz[10];
+				int dx=0, dy=0, dz=0;
+				button(2, 115, 118, 154, 2);	//位置
+				bar3d(121, 440, 639, 479, DARKGRAY, 1);
+				if(commandin(strx, "dx: ", 130, 455, 10)==0)
+				{
+					printf("strz %s\n", strz);
+					dx = atoi(strx);
+				}
+				bar3d(121, 440, 639, 479, DARKGRAY, 1);
+				if(commandin(stry, "dy: ", 130, 455, 10)==0)
+				{
+					dz = atoi(stry);
+				}
+				bar3d(121, 440, 639, 479, DARKGRAY, 1);
+				if(commandin(strz, "dz: ", 130, 455, 10)==0)
+				{
+					
+					dy = atoi(strz);
+				}
+				setfillstyle(SOLID_FILL, LIGHTGRAY);
+				bar(121, 440, 639, 479);
+				for(i=0; i<pixnum; i++)
+				{
+					pixlist[i].x += dx;
+					pixlist[i].y += dy;
+					pixlist[i].z += dz;
+				}
+				bar3d(140, 60, 580, 420, DARKGRAY, 1);
+				// for(i=0; i<pixnum; i++)
+				// {
+				// 	move_3d_p((float)(pixlist[i].x-XSIZE/2), (float)(pixlist[i].y), (float)(pixlist[i].z-YSIZE/2), A, B, &X, &Y, &Z, XOFF+XSIZE/2+DX, 0, YOFF+YSIZE/2+DY, percent);
+				// 	move_3d_yaxis((float)(pixlist[i].x-XSIZE/2), (float)(pixlist[i].y), (float)(pixlist[i].z-YSIZE/2), C, &X, &Y, &Z, XOFF+XSIZE/2+DX, 0, YOFF+YSIZE/2+DY, percent);
+				// 	if((X>145&&X<575)&&(Z>65&&Z<415))
+				// 	{
+				// 		ball(X, Z, 3, pixlist[i].color);
+				// 	}
+				// 	//printf("%d", pixlist[i].x);
+				// 	//printf(" %d\n", X);
+				// }
+				update = 1;
+				button(2, 115, 118, 154, 0);	//位置
+			}
+			else if(mouse_press(2, 155, 118, 194)==1)
+			{
+				
+				char strx[10]={0}, stry[10]={0}, strz[10]={0};
+				int dx=0, dy=0, dz=0;
+				float xf, yf, zf;
+				button(2, 155, 118, 194, 2);	//角度
+				//printf("sss");
+				bar3d(121, 440, 639, 479, DARKGRAY, 1);
+				if(commandin(strx, "x: ", 130, 455, 10)==0)
+				{
+					dx = atoi(strx);
+				}
+				bar3d(121, 440, 639, 479, DARKGRAY, 1);
+				if(commandin(stry, "y: ", 130, 455, 10)==0)
+				{
+					dz = atoi(stry);
+				}
+				bar3d(121, 440, 639, 479, DARKGRAY, 1);
+				if(commandin(strz, "z: ", 130, 455, 10)==0)
+				{
+					dy = atoi(strz);
+				}
+				//printf("%d, %d, %d\n", dx, dy, dz);
+				xf = 1.0 * dx /180 * 3.14159;
+				yf = 1.0 * dy /180 * 3.14159;
+				zf = 1.0 * dz /180 * 3.14159;
+				//printf("%f, %f, %f\n", xf, yf, zf);
+				setfillstyle(SOLID_FILL, LIGHTGRAY);
+				bar(121, 440, 639, 479);
+				for(i=0; i<pixnum; i++)
+				{
+					move_3d_p((float)(pixlist[i].x-XSIZE/2), (float)(pixlist[i].y), (float)(pixlist[i].z-YSIZE/2), xf, zf, &X, &Y, &Z, 0, 0, 0, 1);
+					move_3d_yaxis((float)X, (float)Y, (float)Z, yf, &X, &Y, &Z, XSIZE/2, 0, YSIZE/2, 1);
+					pixlist[i].x = X;
+					pixlist[i].y = Y;
+					pixlist[i].z = Z;
+				}
+				bar3d(140, 60, 580, 420, DARKGRAY, 1);
+				// for(i=0; i<pixnum; i++)
+				// {
+				// 	move_3d_p((float)(pixlist[i].x-XSIZE/2), (float)(pixlist[i].y), (float)(pixlist[i].z-YSIZE/2), A, B, &X, &Y, &Z, 0, 0, 0, 1);
+				// 	move_3d_yaxis((float)X, (float)Y, (float)Z, C, &X, &Y, &Z, XOFF+XSIZE/2+DX, 0, YOFF+YSIZE/2+DY, percent);
+				// 	if((X>145&&X<575)&&(Z>65&&Z<415))
+				// 	{
+				// 		ball(X, Z, 3, pixlist[i].color);
+				// 	}
+				// 	//printf("%d", pixlist[i].x);
+				// 	//printf(" %d\n", X);
+				// }
+				update = 1;
+				button(2, 155, 118, 194, 0);	//角度
+				
+			}
+			else if(mouse_press(2, 275, 118, 314)==1)
+			{
+				int i;
+				button(2, 275, 118, 314, 2);
+				//button(2, 315, 118, 355, 2);	//保存
+				if(pixnum > 0) // save the file
+				{
+					char savepath[30];
+					clrmous(*nx, *ny);
+					
+					bar3d(121, 440, 639, 479, DARKGRAY, 1);
+					// for(i=0; i<pixnum; i++)
+					// {
+					// 	printf("%d\t", pixlist[i].id);
+					// }
+					commandin(savepath, "path: ", 130, 455, 30);
+					stream_write(savepath, pixlist, pixnum);
+					setfillstyle(SOLID_FILL, LIGHTGRAY);
+					bar(121, 440, 639, 479);
+					//stream_read(savepath, &(pixlist[0].x), &pixnum);
+					//printf("ss %d", pixnum);
+				}
+				else
+				{
+					error(2);
+				}
+				//for(i=0; i<pixnum; i++)
+					//free(balllist[i]);
+				//pixnum = 0;
+				//button(2, 315, 118, 355, 0);	//保存
+				update = 1;
+				button(2, 275, 118, 314, 0);
+			}
+			else if(mouse_press(2, 195, 118, 234) == 1)
+			{
+				char direction[10], step[10], distance[10];
+				int dir=0, stp=1, dst=10, i, j, raw;
+				button(2, 195, 118, 234, 2);	//拉伸
+				bar3d(121, 440, 639, 479, DARKGRAY, 1);
+				if(commandin(direction, "x/y/z: ", 130, 455, 10)==0)
+				{
+					if(strcmp("x", direction) == 0)
+					{
+						dir = 1;
+					} 
+					else if(strcmp("y", direction) == 0)
+					{
+						dir = 3;
+					}
+					else if(strcmp("z", direction) == 0)
+					{
+						dir = 2;
+					}
+				}
+				if (dir!=0)
+				{
+					bar3d(121, 440, 639, 479, DARKGRAY, 1);
+					if(commandin(step, "step: ", 130, 455, 10)==0)
+					{
+						stp = atoi(step);
+					}
+					bar3d(121, 440, 639, 479, DARKGRAY, 1);
+					if(commandin(distance, "distance: ", 130, 455, 10)==0)
+					{
+						dst = atoi(distance);
+					}
+				
+					raw = pixnum;
+					switch (dir)
+					{
+					case 1:
+						for(i=1; i<stp+1; i++)
+						{
+							for(j=0; j<raw; j++)
+							{
+								pixlist[j+i*raw].x = pixlist[j].x + dst*i;
+								pixlist[j+i*raw].y = pixlist[j].y;
+								pixlist[j+i*raw].z = pixlist[j].z;
+								pixlist[j+i*raw].color = pixlist[j].color;
+								pixlist[j+i*raw].id = pixlist[j].id + raw*i;
+							}
+						}
+					break;
+					case 2:
+						for(i=1; i<stp+1; i++)
+						{
+							for(j=0; j<raw; j++)
+							{
+								pixlist[j+i*raw].x = pixlist[j].x;
+								pixlist[j+i*raw].y = pixlist[j].y+ dst*i;
+								pixlist[j+i*raw].z = pixlist[j].z;
+								pixlist[j+i*raw].color = pixlist[j].color;
+								pixlist[j+i*raw].id = pixlist[j].id + raw*i;
+							}
+						}
+					break;
+					case 3:
+						for(i=1; i<stp+1; i++)
+						{
+							for(j=0; j<raw; j++)
+							{
+								pixlist[j+i*raw].x = pixlist[j].x;
+								pixlist[j+i*raw].y = pixlist[j].y;
+								pixlist[j+i*raw].z = pixlist[j].z+ dst*i;
+								pixlist[j+i*raw].color = pixlist[j].color;
+								pixlist[j+i*raw].id = pixlist[j].id + raw*i;
+							}
+						}
+					break;
+					}
+					pixnum = pixnum * (stp+1);
+				}
+				setfillstyle(SOLID_FILL, LIGHTGRAY);
+				bar(121, 440, 639, 479);
+				update = 1;
+				button(2, 195, 118, 234, 0);	//拉伸
+			}
+			else if(mouse_press(2, 235, 118, 274) == 1)
+			{
+				char direction[10], step[10], angle[10];
+				int dir=0, stp=1, ang=10, i, j, raw;
+				float anglef;
+				button(2, 235, 118, 274, 2);
+				bar3d(121, 440, 639, 479, DARKGRAY, 1);
+				if(commandin(direction, "x/y/z: ", 130, 455, 20)==0)
+				{
+					if(strcmp("x", direction) == 0)
+					{
+						dir = 1;
+					} 
+					else if(strcmp("y", direction) == 0)
+					{
+						dir = 3;
+					}
+					else if(strcmp("z", direction) == 0)
+					{
+						dir = 2;
+					}
+				}
+				if (dir!=0)
+				{
+					bar3d(121, 440, 639, 479, DARKGRAY, 1);
+					if(commandin(step, "step: ", 130, 455, 20)==0)
+					{
+						stp = atoi(step);
+					}
+					bar3d(121, 440, 639, 479, DARKGRAY, 1);
+					if(commandin(angle, "angle: ", 130, 455, 20)==0)
+					{
+						ang = atoi(angle);
+					}
+					anglef = 1.0 * ang /180 * 3.14159;
+				
+				raw = pixnum;
+				//printf("%d %f\n", ang, anglef);
+				switch (dir)
+				{
+				case 1:
+					for(i=1; i<stp+1; i++)
+					{
+						for(j=0; j<raw; j++)
+						{
+							move_3d_p((float)(pixlist[j].x-XSIZE/2), (float)(pixlist[j].y), (float)(pixlist[j].z-YSIZE/2), anglef*i, 0, &X, &Y, &Z, 0, 0, 0, 1);
+							move_3d_yaxis((float)X, (float)Y, (float)Z, 0, &X, &Y, &Z, XSIZE/2, 0, YSIZE/2, 1);
+							pixlist[j+i*raw].x = X;
+							pixlist[j+i*raw].y = Y;
+							pixlist[j+i*raw].z = Z;
+							pixlist[j+i*raw].color = pixlist[j].color;
+							pixlist[j+i*raw].id = pixlist[j].id + raw*i;
+						}
+					}
+				break;
+				case 2:
+					for(i=1; i<stp+1; i++)
+					{
+						for(j=0; j<raw; j++)
+						{
+							move_3d_p((float)(pixlist[i].x-XSIZE/2), (float)(pixlist[i].y), (float)(pixlist[i].z-YSIZE/2), 0, 0, &X, &Y, &Z, 0, 0, 0, 1);
+							move_3d_yaxis((float)X, (float)Y, (float)Z, anglef*i, &X, &Y, &Z, XSIZE/2, 0, YSIZE/2, 1);
+							pixlist[j+i*raw].x = X;
+							pixlist[j+i*raw].y = Y;
+							pixlist[j+i*raw].z = Z;
+							pixlist[j+i*raw].color = pixlist[j].color;
+							pixlist[j+i*raw].id = pixlist[j].id + raw*i;
+						}
+					}
+				break;
+				case 3:
+					
+					for(i=1; i<stp+1; i++)
+					{
+						for(j=0; j<raw; j++)
+						{
+							move_3d_p((float)(pixlist[i].x-XSIZE/2), (float)(pixlist[i].y), (float)(pixlist[i].z-YSIZE/2), 0, anglef*i, &X, &Y, &Z, 0, 0, 0, 1);
+							move_3d_yaxis((float)X, (float)Y, (float)Z, 0, &X, &Y, &Z, XSIZE/2, 0, YSIZE/2, 1);
+							pixlist[j+i*raw].x = X;
+							pixlist[j+i*raw].y = Y;
+							pixlist[j+i*raw].z = Z;
+							pixlist[j+i*raw].color = pixlist[j].color;
+							pixlist[j+i*raw].id = pixlist[j].id + raw*i;
+						}
+					}
+				break;
+				}
+				pixnum = pixnum * (stp+1);
+			}
+				setfillstyle(SOLID_FILL, LIGHTGRAY);
+				bar(121, 440, 639, 479);
+				update = 1;
+				button(2, 235, 118, 274, 1);
+			}
+			if(mouse_press(2, 315, 118, 355)==1)
+			{
+				button(2, 315, 118, 355, 1);	//刷新
+				update = 1;
+			}
+		}
 
 
 		if(show == 1&& update == 1)
@@ -1571,7 +1917,8 @@ int tdtrans(int *nx, int *ny, int *nb)
 			bar(140, 60, 580, 420);
 			for(i=0; i<pixnum; i++)
 			{
-				move_3d_p((float)(pixlist[i].x-XSIZE/2), (float)(pixlist[i].y), (float)(pixlist[i].z-YSIZE/2), A, B, &X, &Y, &Z, XOFF+XSIZE/2+DX, 0, YOFF+YSIZE/2+DY, percent);
+				move_3d_p((float)(pixlist[i].x-XSIZE/2), (float)(pixlist[i].y), (float)(pixlist[i].z-YSIZE/2), A, B, &X, &Y, &Z, 0, 0, 0, 1);
+				move_3d_yaxis((float)X, (float)Y, (float)Z, C, &X, &Y, &Z, XOFF+XSIZE/2+DX, 0, YOFF+YSIZE/2+DY, percent);
 				if((X>145&&X<575)&&(Z>65&&Z<415))
 				{
 					ball(X, Z, 3, pixlist[i].color);
@@ -1581,6 +1928,7 @@ int tdtrans(int *nx, int *ny, int *nb)
 			}
 			//A+=0.01;
 			//B+=0.01;
+			//C+=0.01;
 			//getch();
 			update = 0;
 		}
@@ -1601,6 +1949,14 @@ int tdtrans(int *nx, int *ny, int *nb)
 			{
 				DX += (*nx - oldx);
 				DY += (*ny - oldy);
+				update = 1;
+			}
+		}
+		if(SP == 1)
+		{
+			if(mouse_press(140, 60, 580, 420) == 1)
+			{
+				C += - 0.01*(*ny - oldy);
 				update = 1;
 			}
 		}

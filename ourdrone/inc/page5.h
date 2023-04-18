@@ -1,6 +1,10 @@
 #ifndef _PAGE5_H_
 #define _PAGE5_H_
 
+#define XOFF 140
+#define YOFF 60
+#define XSIZE 440
+#define YSIZE 360
 typedef struct Pixel
 {
     int far x;

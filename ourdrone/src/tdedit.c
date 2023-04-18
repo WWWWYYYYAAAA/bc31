@@ -15,10 +15,7 @@
 #include "TD.h"
 #include "page5.h"
 
-#define XOFF 140
-#define YOFF 60
-#define XSIZE 440
-#define YSIZE 360
+
 
 int XOR_mark(int x1, int y1, int x2, int y2)
 {

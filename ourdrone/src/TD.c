@@ -9,9 +9,21 @@ int move_3d(float xin, float yin, float zin, float A, float B, int *xout, int *y
 	float sB = sin(B), cB = cos(B);	//zè½´è½¬
 	float xB = cB * xA - sB * yA, yB = sB * xA + cB * yA, zB = zA;
 	
-	*xout = xB*0.5 + Xoffset;
-	*yout = yB*0.5 + Yoffset;
-	*zout = zB*0.5 + Zoffset;
+	*xout = xB + Xoffset;
+	*yout = yB + Yoffset;
+	*zout = zB + Zoffset;
+	
+	return 0;
+}
+
+int move_3d_yaxis(float xin, float yin, float zin, float C, int *xout, int *yout, int *zout, int Xoffset, int Yoffset, int Zoffset, float percent)
+{
+	float sC = sin(C), cC = cos(C);	//yÖáÐý×ª
+	float xC = cC * xin + sC * zin, yC = yin, zC = - sC * xin + cC * zin;
+
+	*xout = xC*percent + Xoffset;
+	*yout = yC*percent + Yoffset;
+	*zout = zC*percent + Zoffset;
 	
 	return 0;
 }
