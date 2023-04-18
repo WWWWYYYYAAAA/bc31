@@ -150,7 +150,7 @@ int page5()
 int editpic(int *nx, int *ny, int *nb)
 {
 	int style[5] = {0, 2, 0, 0, 1}, h, w, edit = 0, buffsize, pixnum = 0;
-	char path[20] = {0}, picpath[20];
+	char path[20] = {0}, picpath[20] = {0};
 	PIX pixlist[400];
 	void far * ballbuff;
 	float scale = 1;
@@ -230,12 +230,18 @@ int editpic(int *nx, int *ny, int *nb)
 				setcolor(WHITE);
 				rectangle(140-2, 60-2, 580+2, 420+2);
 				edit = 0;
-				for(i=0; i<pixnum; i++)
-				free(balllist[i]);
-				pixnum = 0;
-				for(i=0; i<pixnum; i++)
-				free(balllist[i]);
-				pixnum = 0;
+				for(i=0; i<400; i++)
+				{
+					if(balllist[i] != NULL)
+					{
+						free(balllist[i]);
+					}
+					pixlist[i].x = 0;
+					pixlist[i].y = 0;
+					pixlist[i].z = 0; 
+					pixlist[i].color = 0; 
+					pixlist[i].id = -1; 
+				}
 			}
 			else
 			{
@@ -265,7 +271,7 @@ int editpic(int *nx, int *ny, int *nb)
 			bar3d(121, 440, 639, 479, DARKGRAY, 1);
 			if(commandin(path, "path: ", 130, 455, 20) == 0)
 			{
-				if(stream_read(path, &(pixlist[0].x), &pixnum)!=-1)
+				if(stream_read(path, pixlist, &pixnum)!=-1)
 					edit = 1;
 			}
 			for(k = 0; k<pixnum; k++)
@@ -440,7 +446,11 @@ int editpic(int *nx, int *ny, int *nb)
 						button(2, 155, 118, 194, 0);	//保存
 						button(2, 195, 118, 234, 0);	//导入
 						//printf("%d", pixnum);
-						putbmp_zoom(140+(XSIZE-w)/2, 60+(YSIZE-h)/2, picpath, scale, scale); //放置背景模板
+						if(picpath[0]!=0)
+						{
+							putbmp_zoom(140+(XSIZE-w)/2, 60+(YSIZE-h)/2, picpath, scale, scale); //放置背景模板
+						}
+						
 						for(s=0; s<pixnum; s++)
 						{
 							ball(pixlist[s].x+XOFF, pixlist[s].z+YOFF, 3, pixlist[s].color);
@@ -486,11 +496,18 @@ int editpic(int *nx, int *ny, int *nb)
 						setcolor(WHITE);
 						rectangle(140-2, 60-2, 580+2, 420+2);
 						edit = 0;
-						for(i=0; i<pixnum; i++)
-						free(balllist[i]);
-						pixnum = 0;
-						for(i=0; i<pixnum; i++)
-						free(balllist[i]);
+						for(i=0; i<400; i++)
+						{
+							if(balllist[i] != NULL)
+							{
+								free(balllist[i]);
+							}
+							pixlist[i].x = 0;
+							pixlist[i].y = 0;
+							pixlist[i].z = 0; 
+							pixlist[i].color = 0; 
+							pixlist[i].id = -1; 
+						}
 						pixnum = 0;
 					}
 					else
@@ -509,7 +526,7 @@ int editpic(int *nx, int *ny, int *nb)
 					//printf("%d %d\n", pixnum, pixn);
 					if(commandin(path, "path: ", 130, 455, 20) == 0)
 					{
-						if(stream_read(path, &(pixlist[pixnum].x), &pixn)!=-1)
+						if(stream_read(path, pixlist+pixnum, &pixn)!=-1)
 							edit = 1;
 					}
 					//printf("%d %d\n", pixnum, pixn);
@@ -518,6 +535,7 @@ int editpic(int *nx, int *ny, int *nb)
 						ballbuff = farmalloc(buffsize);
 						clrmous(*nx, *ny);
 						getimage(pixlist[k].x-4+XOFF, pixlist[k].z-4+YOFF, pixlist[k].x+4+XOFF, pixlist[k].z+4+YOFF, ballbuff);
+						pixlist[k].id +=pixnum;
 						balllist[k] = ballbuff;
 					}
 
@@ -539,11 +557,15 @@ int editpic(int *nx, int *ny, int *nb)
 						clrmous(*nx, *ny);
 						button(2, 155, 118, 194, 2);
 						bar3d(121, 440, 639, 479, DARKGRAY, 1);
+						// for(i=0; i<pixnum; i++)
+						// {
+						// 	printf("%d\t", pixlist[i].id);
+						// }
 						commandin(savepath, "path: ", 130, 455, 30);
-						stream_write(savepath, &(pixlist[0].x), pixnum);
+						stream_write(savepath, pixlist, pixnum);
 						setfillstyle(SOLID_FILL, LIGHTGRAY);
 						bar(121, 440, 639, 479);
-						stream_read(savepath, &(pixlist[0].x), &pixnum);
+						//stream_read(savepath, &(pixlist[0].x), &pixnum);
 						//printf("ss %d", pixnum);
 						button(2, 155, 118, 194, 0);
 					}
@@ -903,6 +925,8 @@ int editpic(int *nx, int *ny, int *nb)
 						}
 						else
 						{
+							putimage(xp-4, yp-4, ballbuff, COPY_PUT);
+							free(ballbuff);
 							bar(121, 440, 639, 479);
 						}
 					}
@@ -1062,46 +1086,33 @@ int editpic(int *nx, int *ny, int *nb)
 						bar(121, 440, 639, 479);
 						if(pixid < pixnum && pixid >= 0)
 						{
-							int j;
+							
 							setwritemode(XOR_PUT); 
-							for(j=0; j<11; j++)
-							{
-								line(pixlist[pixid].x-5+XOFF, pixlist[pixid].z-5+YOFF+j, pixlist[pixid].x+5+XOFF, pixlist[pixid].z-5+YOFF+j);
-							}
-							setwritemode(COPY_PUT); 
+							XOR_mark(pixlist[pixid].x-5+XOFF, pixlist[pixid].z-5+YOFF, pixlist[pixid].x+5+XOFF, pixlist[pixid].z+5+YOFF);
 							bar3d(121, 440, 639, 479, DARKGRAY, 1);
 							if(confirm() == 1)
 							{
-								int i;
-								setwritemode(XOR_PUT); 
-								for(i=0; i<11; i++)
-								{
-									line(pixlist[pixid].x-5+XOFF, pixlist[pixid].z-5+YOFF+i, pixlist[pixid].x+5+XOFF, pixlist[pixid].z-5+YOFF+i);
-								}
-								setwritemode(COPY_PUT); 
+								int j;
+								XOR_mark(pixlist[pixid].x-5+XOFF, pixlist[pixid].z-5+YOFF, pixlist[pixid].x+5+XOFF, pixlist[pixid].z+5+YOFF);
+								
 								putimage(pixlist[pixid].x+XOFF-4, pixlist[pixid].z+YOFF-4, balllist[pixid], COPY_PUT);
-								pixnum--;
-								for(i=pixid; i<pixnum; i++)
-								{
-									pixlist[i] = pixlist[i+1];
-								}
 								free(balllist[pixid]);
-								for(i=pixid; i<pixnum; i++)
+								pixnum--;
+								for(j=pixid; j<pixnum; j++)
 								{
-									balllist[i] = balllist[i+1];
+									pixlist[j] = pixlist[j+1];
 								}
+								
+								// for(i=pixid; i<pixnum; i++)
+								// {
+								// 	balllist[i] = balllist[i+1];
+								// }
 								bar(4, 340, 116, 350);
 								printg_cn(10, 340, WHITE, style, "point= %d", pixnum);
 							}
 							else
 							{
-								int i;
-								setwritemode(XOR_PUT); 
-								for(i=0; i<11; i++)
-								{
-									line(pixlist[pixid].x-5+XOFF, pixlist[pixid].z-5+YOFF+i, pixlist[pixid].x+5+XOFF, pixlist[pixid].z-5+YOFF+i);
-								}
-								setwritemode(COPY_PUT); 
+								XOR_mark(pixlist[pixid].x-5+XOFF, pixlist[pixid].z-5+YOFF, pixlist[pixid].x+5+XOFF, pixlist[pixid].z+5+YOFF);
 							}
 							
 						}
@@ -1139,10 +1150,10 @@ int editpic(int *nx, int *ny, int *nb)
 				button(2, 155, 118, 194, 2);
 				bar3d(121, 440, 639, 479, DARKGRAY, 1);
 				commandin(savepath, "path: ", 130, 455, 30);
-				stream_write(savepath, &(pixlist[0].x), pixnum);
+				stream_write(savepath, pixlist, pixnum);
 				setfillstyle(SOLID_FILL, LIGHTGRAY);
 				bar(121, 440, 639, 479);
-				stream_read(savepath, &(pixlist[0].x), &pixnum);
+				//stream_read(savepath, pixlist, &pixnum);
 				//printf("ss %d", pixnum);
 				button(2, 155, 118, 194, 0);
 			}
@@ -1257,7 +1268,7 @@ int tdviwer(int *nx, int *ny, int *nb)
 			bar3d(121, 440, 639, 479, DARKGRAY, 1);
 			if(commandin(path, "path: ", 130, 455, 20) == 0)
 			{
-				if(stream_read(path, &(pixlist[0].x), &pixnum)!=-1)
+				if(stream_read(path, pixlist, &pixnum)!=-1)
 					show = 1;
 			}
 			setfillstyle(SOLID_FILL, LIGHTGRAY);
@@ -1455,7 +1466,7 @@ int tdtrans(int *nx, int *ny, int *nb)
 			bar3d(121, 440, 639, 479, DARKGRAY, 1);
 			if(commandin(path, "path: ", 130, 455, 20) == 0)
 			{
-				if(stream_read(path, &(pixlist[0].x), &pixnum)!=-1)
+				if(stream_read(path, pixlist, &pixnum)!=-1)
 					show = 1;
 			}
 			setfillstyle(SOLID_FILL, LIGHTGRAY);

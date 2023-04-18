@@ -141,7 +141,7 @@ int tdedit(int *nx, int *ny, int *nb)
 			bar3d(121, 440, 639, 479, DARKGRAY, 1);
 			if(commandin(path, "path: ", 130, 455, 20) == 0)
 			{
-				if(stream_read(path, &(pixlist[0].x), &pixnum)!=-1)
+				if(stream_read(path, pixlist, &pixnum)!=-1)
 					edit = 1;
 			}
 			for(k = 0; k<pixnum; k++)
@@ -912,10 +912,10 @@ int tdedit(int *nx, int *ny, int *nb)
 				button(2, 155, 118, 194, 1);
 				bar3d(121, 440, 639, 479, DARKGRAY, 1);
 				commandin(savepath, "path: ", 130, 455, 30);
-				stream_write(savepath, &(pixlist[0].x), pixnum);
+				stream_write(savepath, pixlist, pixnum);
 				setfillstyle(SOLID_FILL, LIGHTGRAY);
 				bar(121, 440, 639, 479);
-				stream_read(savepath, &(pixlist[0].x), &pixnum);
+				stream_read(savepath, pixlist, &pixnum);
 				//printf("ss %d", pixnum);
 			}
 			else
