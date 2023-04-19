@@ -20,5 +20,7 @@ int picload(char * path); //ÆúÓÃ
 int tdviwer(int *nx, int *ny, int *nb);
 int tdtrans(int *nx, int *ny, int *nb);
 int tdpreviwer(int *nx, int *ny, int *nb, PIX *pixlist, int pixnum);
+int filelink(int *nx, int *ny, int *nb);
+int clearpixlist(PIX * pixlist, int * pixnum, int num);
 
 #endif

@@ -6,5 +6,8 @@
 //int stream_read(char * path, int far *dronelist);
 int stream_read(char * path, PIX *pixlist,  int *dronenump);
 int stream_write(char * path, PIX *pixlist, int dronenum);
+int formatname(int num, char * name);
+int openconf(char * prjdir, int *filenum);
+int updatenum(char * prjdir, int *filenum);
 
 #endif

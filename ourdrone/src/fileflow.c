@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include "error.h"
 #include "page5.h"
-
+#include <string.h>
+#define NAMELEN 6
 //#include <alloc.h>
 //int stream_read(char * path, int (*dronelist)[5])
 int stream_read(char * path, PIX *pixlist,  int *dronenump)
@@ -47,5 +48,74 @@ int stream_write(char * path, PIX *pixlist, int dronenum)
 	}
 	//fwrite(head, 2, dronenum*5, fp);
 	fclose(fp);
+	return 0;
+}
+
+int formatname(int num, char * name)
+{
+	int i, j, len;
+	sprintf(name, "%d", num);
+	len = strlen(name);
+	for(i=0; i<len; i++)
+	{
+		name[i+NAMELEN-len] = name[i];
+	}
+	for(i=0; i<NAMELEN-len; i++)
+	{
+		name[i] = '0';
+	}
+	return 0;
+}
+
+int creatconf(char * prjdir)
+{
+	FILE *fp, *fpb;
+	mkdir(prjdir);
+	chdir(prjdir);
+	if((fp = fopen("./config.txt", "w")) == NULL)
+    {
+		error(3);
+        return -1;
+    }
+	fclose(fp);
+	if((fpb = fopen("./confb", "wb")) == NULL)
+    {
+		error(3);
+        return -1;
+    }
+	fclose(fpb);
+	chdir("../");
+	return 0;
+}
+
+int openconf(char * prjdir, int *filenum)
+{
+	FILE *fp;
+	chdir(prjdir);
+	if((fp = fopen("./confb", "wb")) == NULL)
+    {
+		error(3);
+        return -1;
+    }
+	fseek(fp, 0, 0);
+	fread(filenum, 2, 1, fp);
+	fclose(fp);
+	chdir("../");
+	return 0;
+}
+
+int updatenum(char * prjdir, int *filenum)
+{
+	FILE *fp;
+	chdir(prjdir);
+	if((fp = fopen("./confb", "wb")) == NULL)
+    {
+		error(3);
+        return -1;
+    }
+	fseek(fp, 0, 0);
+	fwrite(filenum, 2, 1, fp);
+	fclose(fp);
+	chdir("../");
 	return 0;
 }
