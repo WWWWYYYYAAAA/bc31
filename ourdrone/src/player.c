@@ -20,6 +20,8 @@ int play(char * prjdir, int step)
     char fname[10]={0};
     int pixnum1=0, pixnum2=0, pause=0, out=0, i, j, k, filenum=0, frnum=0, vector=1, stp=0;
     int X, Y, Z, X1, Y1, Z1;
+    clearpixlist(pixlist1, &pixnum1, 400);
+    clearpixlist(pixlist2, &pixnum2, 400);
     if(openconf(prjdir, &filenum, &frnum)!= -1&& loadframe(prjdir, STEP, frnum) != -1)
 	{
         while (1)

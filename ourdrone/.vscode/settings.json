@@ -2,6 +2,7 @@
     "files.associations": {
         "BMP.C": "cpp",
         "error.h": "c",
-        "graphics.h": "c"
+        "graphics.h": "c",
+        "visual.h": "c"
     }
 }

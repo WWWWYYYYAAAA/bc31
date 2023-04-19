@@ -2663,9 +2663,9 @@ int clearpixlist(PIX * pixlist, int * pixnum, int num)
 	int i;
 	for(i=0; i<num; i++)
 	{
-		pixlist[i].x = 0;
+		pixlist[i].x = XSIZE/2;
 		pixlist[i].y = 0;
-		pixlist[i].z = 0;
+		pixlist[i].z = YSIZE/2;
 		pixlist[i].color = 0;
 		pixlist[i].id = -1;
 	}
