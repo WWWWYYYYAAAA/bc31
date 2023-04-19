@@ -78,7 +78,7 @@ int creatconf(char * prjdir)
         return -1;
     }
 	fclose(fp);
-	if((fpb = fopen("./confb", "wb")) == NULL)
+	if((fpb = fopen("./configb.txt", "w")) == NULL)
     {
 		error(3);
         return -1;
@@ -92,14 +92,12 @@ int openconf(char * prjdir, int *filenum, int *frnum)
 {
 	FILE *fp;
 	chdir(prjdir);
-	if((fp = fopen("./confb", "rb")) == NULL)
+	if((fp = fopen("./configb.txt", "r")) == NULL)
     {
 		error(3);
         return -1;
     }
-	fseek(fp, 0, 0);
-	fread(filenum, 2, 1, fp);
-	fread(frnum, 2, 1, fp);
+	fscanf(fp, "%d%d", filenum, frnum);
 	fclose(fp);
 	chdir("../");
 	return 0;
@@ -109,14 +107,12 @@ int updatenum(char * prjdir, int *filenum, int *frnum)
 {
 	FILE *fp;
 	chdir(prjdir);
-	if((fp = fopen("./confb", "wb")) == NULL)
+	if((fp = fopen("./configb.txt", "w")) == NULL)
     {
 		error(3);
         return -1;
     }
-	fseek(fp, 0, 0);
-	fwrite(filenum, 2, 1, fp);
-	fwrite(frnum, 2, 1, fp);
+	fprintf(fp, "%d %d\n", *filenum, *frnum);
 	fclose(fp);
 	chdir("../");
 	return 0;

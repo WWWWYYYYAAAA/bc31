@@ -36,7 +36,7 @@ int play(char * prjdir, int step)
                     if(stp>0&&STEP[stp-1].fileid != STEP[stp].fileid)
                     {   
                         i = STEP[step-1].cycles;
-                        for(j=1; j<21; j++)
+                        for(j=1; j<21; j++)             //frame
                         {
                             float A = 1.0 * i * STEP[stp].dA, B = 1.0 * i * STEP[stp].dB, C = 1.0 * i * STEP[stp].dC;
                             int DX = STEP[stp].dx, DY = STEP[stp].dy, DZ = STEP[stp].dz;
@@ -57,7 +57,7 @@ int play(char * prjdir, int step)
                             delay(100);
                         }
                     }
-                    for(i=0; i<STEP[stp].cycles; i++)
+                    for(i=0; i<STEP[stp].cycles; i++) //frame
                     {
                         
                         float A = 1.0 * i * STEP[stp].dA, B = 1.0 * i * STEP[stp].dB, C = 1.0 * i * STEP[stp].dC;
@@ -91,7 +91,7 @@ int play(char * prjdir, int step)
                     if(stp>0&&STEP[stp-1].fileid != STEP[stp].fileid)
                     {
                         i = STEP[step-1].cycles;
-                        for(j=1; j<21; j++)
+                        for(j=1; j<21; j++) //frame
                         {
                             float A = 1.0 * i * STEP[stp].dA, B = 1.0 * i * STEP[stp].dB, C = 1.0 * i * STEP[stp].dC;
                             int DX = STEP[stp].dx, DY = STEP[stp].dy, DZ = STEP[stp].dz;
@@ -112,7 +112,7 @@ int play(char * prjdir, int step)
                             delay(100);
                         }
                     }
-                    for(i=0; i<STEP[stp].cycles; i++)
+                    for(i=0; i<STEP[stp].cycles; i++) //frame
                     {
                         
                         float A = 1.0 * i * STEP[stp].dA, B = 1.0 * i * STEP[stp].dB, C = 1.0 * i * STEP[stp].dC;

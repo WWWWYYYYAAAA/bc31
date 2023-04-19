@@ -2346,10 +2346,10 @@ int filelink(int *nx, int *ny, int *nb)
 						{
 							int k;
 							char tempname[20] = {0};
-							for(k=0; k<filenum; k++)
+							for(k=1; k<filenum+1; k++)
 							{
 								formatname(k, tempname);
-								button(BASEX, BASEY+16*(k-1), BASEX+200, BASEY+16*k-1, 0);
+								button(BASEX, BASEY+16*(k-1), BASEX+150, BASEY+16*k-1, 0);
 								printg_cn(BASEX+5, BASEY+16*(k-1)+4, WHITE, style, tempname);
 							}
 						}
