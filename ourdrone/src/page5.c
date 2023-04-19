@@ -2273,10 +2273,11 @@ int tdpreviwer(int *nx, int *ny, int *nb, PIX *pixlist, int pixnum)
 
 int filelink(int *nx, int *ny, int *nb)
 {
-	int style[5] = {0, 2, 0, 0, 1}, filenum=0, pixnum1=0, pixnum2=0, i, remake, view = 0;
+	int style[5] = {0, 2, 0, 0, 1}, filenum=0, pixnum1=0, i, remake, view = 0;
 	int prjflag = 0, frnum = 0;
-	PIX pixlist1[400], pixlist2[400];
+	PIX pixlist1[400];// pixlist2[400];
 	FRAME STEP[200];
+
 	char prjdir[30]={0}, filename[10]={0};
 	float A = 0, B = 0, C = 0, percent = 1;
 	int X, Y, Z;
@@ -2326,7 +2327,6 @@ int filelink(int *nx, int *ny, int *nb)
 			bar3d(121, 440, 639, 479, DARKGRAY, 1);
 			if(commandin(path, "path: ", 130, 455, 20) == 0)
 			{
-				
 					clearpixlist(pixlist1, &pixnum1, 400);
 					if(stream_read(path, pixlist1, &pixnum1) != -1)
 					{
@@ -2419,6 +2419,7 @@ int filelink(int *nx, int *ny, int *nb)
 		}
 		else if(mouse_press(2, 155, 118, 194) == 1 && prjflag == 0)
 		{
+			//导入工程
 			int i;
 			clrmous(*nx, *ny);
 			button(2, 155, 118, 194, 2);

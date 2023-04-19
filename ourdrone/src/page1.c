@@ -4,6 +4,7 @@
 #include "onoff.h"
 #include "printg.h"
 #include "page234.h"
+#include "player.h"
 //菜单�?
 int page1()
 {
@@ -22,6 +23,7 @@ int page1()
 	button(0, 23, 98, 63, 0);
 	button(0, 64, 98, 104, 0);
 	button(0, 105, 98, 145, 0);
+	button(0, 146, 98, 186, 0);
 	button(442, 24, 472, 54, 0);
 	button(2, 440, 98, 477, 0);
 	sliderbase(617, 201, nx, ny, 20, 278, 0, 0, 0);
@@ -54,6 +56,12 @@ int page1()
 			button(2, 440, 98, 477, 1);
 			return 0;
 		}
+		else if (mouse_press(0, 146, 98, 186) == 1)
+		{
+			button(0, 146, 98, 186, 1);
+			part = 4;
+		}
+		
 		
 		newmouse(&nx, &ny, &nb);
 		temp = slider(617, 201, nx, ny, 20, 278, 0, 0, &signal1);
@@ -89,6 +97,11 @@ int page1()
 				button(442, 24, 472, 54, mousig[3]);
 				return 4;
 			}
+			break;
+			case 4:
+			setfillstyle(SOLID_FILL, BLACK);
+			bar(50, 30, 590, 450);
+			play("prj", 1);
 			break;
 		}
 		if(temp > 0)
