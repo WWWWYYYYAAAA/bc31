@@ -2274,21 +2274,30 @@ int tdpreviwer(int *nx, int *ny, int *nb, PIX *pixlist, int pixnum)
 int filelink(int *nx, int *ny, int *nb)
 {
 	int style[5] = {0, 2, 0, 0, 1}, filenum=0, pixnum1=0, pixnum2=0, i, remake, view = 0;
-	int prjflag = 0;
+	int prjflag = 0, frnum = 0;
 	PIX pixlist1[400], pixlist2[400];
+	FRAME STEP[200];
 	char prjdir[30]={0}, filename[10]={0};
 	float A = 0, B = 0, C = 0, percent = 1;
 	int X, Y, Z;
 	printg_cn(30, 55, 0, style, "%Z", "新建工程"); 
 	printg_cn(30, 95, 0, style, "%Z", "添加文件"); 
-	printg_cn(45, 135, 0, style, "%Z", "撤回");
+	printg_cn(30, 135, 0, style, "%Z", "撤销添加");
 	printg_cn(30, 175, 0, style, "%Z", "导入工程");
 	printg_cn(30, 215, 0, style, "%Z", "关闭工程");
+	printg_cn(38, 255, 0, style, "%Z", "创建流");
+	printg_cn(38, 295, 0, style, "%Z", "保存流");
 	button(2, 35, 118, 74, 0);		//新建工程
 	button(2, 75, 118, 114, 0);		//添加文件
 	button(2, 115, 118, 154, 0); 	//撤回
 	button(2, 155, 118, 194, 0); 	//导入工程
-	button(2, 195, 118, 235, 0);	//关闭工程
+	button(2, 195, 118, 234, 0);	//关闭工程
+	button(2, 235, 118, 274, 0);	//创建流
+	button(2, 275, 118, 314, 0);	//保存流
+	
+	bar3d(5, 350, 115, 420, DARKGRAY, 1);
+	printg_cn(10, 360, WHITE, style, "filenum: %d", filenum);
+	printg_cn(10, 370, WHITE, style, "frnum: %d", frnum);
 	while (1)
 	{
 		if(mouse_press(2, 35, 118, 74) == 1 && prjflag == 0)	//新建工程
@@ -2300,10 +2309,13 @@ int filelink(int *nx, int *ny, int *nb)
 			{
 				creatconf(prjdir);
 				prjflag = 1;
+				filenum = 0;
 			}
 			setfillstyle(SOLID_FILL, LIGHTGRAY);
 			bar(121, 440, 639, 479);
 			button(2, 35, 118, 74, 0);
+			bar3d(5, 350, 115, 420, DARKGRAY, 1);
+			printg_cn(10, 360, WHITE, style, "filenum: %d", filenum);
 			
 		}
 		else if(mouse_press(2, 75, 118, 114) == 1 && prjflag == 1) ////添加文件
@@ -2319,13 +2331,28 @@ int filelink(int *nx, int *ny, int *nb)
 					if(stream_read(path, pixlist1, &pixnum1) != -1)
 					{
 						filenum ++;
-						updatenum(prjdir, &filenum);
+						//printf("num: %d", filenum);
+						updatenum(prjdir, &filenum, &frnum);
 						chdir(prjdir);
 						formatname(filenum, filename);
 						stream_write(filename, pixlist1, pixnum1);
 						//printf("%s\n", filename);
 						chdir("../");
 						view = 1;
+						bar3d(5, 350, 115, 420, DARKGRAY, 1);
+						printg_cn(10, 360, WHITE, style, "filenum: %d", filenum);
+						printg_cn(10, 370, WHITE, style, "frnum: %d", frnum);
+						if(filenum > 0)
+						{
+							int k;
+							char tempname[20] = {0};
+							for(k=0; k<filenum; k++)
+							{
+								formatname(k, tempname);
+								button(BASEX, BASEY+16*(k-1), BASEX+200, BASEY+16*k-1, 0);
+								printg_cn(BASEX+5, BASEY+16*(k-1)+4, WHITE, style, tempname);
+							}
+						}
 					}
 				
 			}
@@ -2339,13 +2366,13 @@ int filelink(int *nx, int *ny, int *nb)
             button(639 - 30,64 - 30, 639, 64, 1);
             error(-1);
 			//setcolor(WHITE);
-			//rectangle(140-2, 60-2, 580+2, 420+2); 
+			rectangle(140-2, 60-2, 580+2, 420+2); 
 			//edit = 1;
-			bar3d(140, 60, 580, 420, DARKGRAY, 1);
+			//bar3d(140, 60, 580, 420, DARKGRAY, 1);
         }
 		else if(mouse_press(2, 115, 118, 154) == 1 && prjflag == 1)
 		{
-			button(2, 115, 118, 154, 2);
+			button(2, 115, 118, 154, 2); //撤销添加
 			bar3d(121, 440, 639, 479, DARKGRAY, 1);
 			if(confirm()==1)
 			{
@@ -2354,13 +2381,26 @@ int filelink(int *nx, int *ny, int *nb)
 				if(filenum>0)
 				{
 					filenum --;
+					if(filenum > 0)
+					{
+						int k;
+						char tempname[20] = {0};
+						for(k=1; k<filenum+1; k++)
+						{
+							formatname(k, tempname);
+							button(BASEX, BASEY+16*(k-1), BASEX+150, BASEY+16*k-1, 0);
+							printg_cn(BASEX+5, BASEY+16*(k-1)+4, WHITE, style, tempname);
+						}
+					}
 				}
-				updatenum(prjdir, &filenum);
+				updatenum(prjdir, &filenum, &frnum);
 			}
-			//撤回
 			setfillstyle(SOLID_FILL, LIGHTGRAY);
 			bar(121, 440, 639, 479);
 			button(2, 115, 118, 154, 0);
+			bar3d(5, 350, 115, 420, DARKGRAY, 1);
+			printg_cn(10, 360, WHITE, style, "filenum: %d", filenum);
+			printg_cn(10, 370, WHITE, style, "frnum: %d", frnum);
 		}
 		else if(mouse_press(2, 440, 118, 477) == 1)//退出
 		{
@@ -2379,24 +2419,193 @@ int filelink(int *nx, int *ny, int *nb)
 		}
 		else if(mouse_press(2, 155, 118, 194) == 1 && prjflag == 0)
 		{
+			int i;
 			clrmous(*nx, *ny);
-			button(2, 35, 118, 74, 2);
+			button(2, 155, 118, 194, 2);
 			bar3d(121, 440, 639, 479, DARKGRAY, 1);
 			if(commandin(prjdir, "dir: ", 130, 455, 20) == 0)
 			{
 				//creatconf(prjdir);
-				prjflag = 1;
+				if(openconf(prjdir, &filenum, &frnum)!= -1&& loadframe(prjdir, STEP, frnum) != -1)
+				{
+					// for(i=0; i<frnum; i++)
+					// {
+					// 	printf("%d %d %d %d %d %f %f %f %f\n",
+					// 		STEP[i].fileid, STEP[i].cycles, 
+					// 		STEP[i].dx, STEP[i].dy, STEP[i].dz, 
+					// 		STEP[i].dA, STEP[i].dB, STEP[i].dC, STEP[i].percent);
+					// }
+					prjflag = 1;
+					//printf("num %d", filenum);
+					if(filenum > 0)
+					{
+						int k;
+						char tempname[20] = {0};
+						for(k=1; k<filenum+1; k++)
+						{
+							formatname(k, tempname);
+							button(BASEX, BASEY+16*(k-1), BASEX+150, BASEY+16*k-1, 0);
+							printg_cn(BASEX+5, BASEY+16*(k-1)+4, WHITE, style, tempname);
+						}
+					}
+				}
+				
 			}
+			bar3d(5, 350, 115, 420, DARKGRAY, 1);
+			printg_cn(10, 360, WHITE, style, "filenum: %d", filenum);
+			printg_cn(10, 370, WHITE, style, "frnum: %d", frnum);
 			setfillstyle(SOLID_FILL, LIGHTGRAY);
 			bar(121, 440, 639, 479);
-			button(2, 35, 118, 74, 0);
+			button(2, 155, 118, 194, 0);
 		}
-		else if(mouse_press(2, 195, 118, 235)==1)
+		else if(mouse_press(2, 195, 118, 234)==1)
 		{
-			button(2, 195, 118, 235, 1);	//关闭工程
+			button(2, 195, 118, 234, 1);	//关闭工程
 			prjflag = 0;
 			filenum = 0;
 			pixnum1 = 0;
+			clearpixlist(pixlist1, &pixnum1, 400);
+			bar3d(5, 350, 115, 420, DARKGRAY, 1);
+			printg_cn(10, 360, WHITE, style, "filenum: %d", filenum);
+			printg_cn(10, 370, WHITE, style, "frnum: %d", frnum);
+		}
+		else if(mouse_press(2, 235, 118, 274)==1)
+		{
+			char str[20];
+			button(2, 235, 118, 274, 2);	//创建流
+			while (1)
+			{
+				bar3d(121, 440, 639, 479, DARKGRAY, 1);
+				if(commandin(str, "fileid: ", 130, 455, 20) == 0)
+				{
+					STEP[frnum].fileid = atoi(str);
+					bar3d(121, 440, 639, 479, DARKGRAY, 1);
+					if(commandin(str, "cycles: ", 130, 455, 20) == 0)
+					{
+						STEP[frnum].cycles = atoi(str);
+						if(STEP[frnum].cycles<=0)
+						{
+							STEP[frnum].cycles = 1;
+						}
+					}
+					else
+					{
+						STEP[frnum].cycles = 1;
+					}
+					bar3d(121, 440, 639, 479, DARKGRAY, 1);
+					if(commandin(str, "dx: ", 130, 455, 20) == 0)
+					{
+						STEP[frnum].dx = atoi(str);
+					}
+					else
+					{
+						STEP[frnum].dx = 0;
+					}
+					bar3d(121, 440, 639, 479, DARKGRAY, 1);
+					if(commandin(str, "dy: ", 130, 455, 20) == 0)
+					{
+						STEP[frnum].dz = atoi(str);
+					}
+					else
+					{
+						STEP[frnum].dz = 0;
+					}
+					bar3d(121, 440, 639, 479, DARKGRAY, 1);
+					if(commandin(str, "dz: ", 130, 455, 20) == 0)
+					{
+						STEP[frnum].dy = atoi(str);
+					}
+					else
+					{
+						STEP[frnum].dy = 0;
+					}
+					bar3d(121, 440, 639, 479, DARKGRAY, 1);
+					if(commandin(str, "dA: ", 130, 455, 20) == 0)
+					{
+						STEP[frnum].dA = 1.0 * atoi(str) /180 * 3.14159;
+					}
+					else
+					{
+						STEP[frnum].dA = 0;
+					}
+					bar3d(121, 440, 639, 479, DARKGRAY, 1);
+					if(commandin(str, "dB: ", 130, 455, 20) == 0)
+					{
+						STEP[frnum].dC = 1.0 * atoi(str) /180 * 3.14159;
+					}
+					else
+					{
+						STEP[frnum].dC = 0;
+					}
+					bar3d(121, 440, 639, 479, DARKGRAY, 1);
+					if(commandin(str, "dC: ", 130, 455, 20) == 0)
+					{
+						STEP[frnum].dB = 1.0 * atoi(str) /180 * 3.14159;
+					}
+					else
+					{
+						STEP[frnum].dB = 0;
+					}
+					bar3d(121, 440, 639, 479, DARKGRAY, 1);
+					if(commandin(str, "percent: ", 130, 455, 20) == 0)
+					{
+						STEP[frnum].percent = 1.0 * atoi(str)/100;
+					}
+					else
+					{
+						STEP[frnum].percent = 1;
+					}
+					frnum ++;
+					bar3d(5, 350, 115, 420, DARKGRAY, 1);
+					printg_cn(10, 360, WHITE, style, "filenum: %d", filenum);
+					printg_cn(10, 370, WHITE, style, "frnum: %d", frnum);
+				}
+				else
+				{
+					break;
+				}
+			}
+			
+			button(2, 235, 118, 274, 0);	//创建流
+			setfillstyle(SOLID_FILL, LIGHTGRAY);
+			bar(121, 440, 639, 479);
+		}
+		else if(mouse_press(2, 275, 118, 314)==1)
+		{
+			char str[20];
+			button(2, 275, 118, 314, 2);	//保存流
+			bar3d(121, 440, 639, 479, DARKGRAY, 1);
+			// if(commandin(str, ": ", 130, 455, 20) == 0)
+			// {
+			// 	STEP[frnum].dz = atoi(str);
+			// }
+			saveframe(prjdir, STEP, frnum);
+			updatenum(prjdir, &filenum, &frnum);
+			setfillstyle(SOLID_FILL, LIGHTGRAY);
+			bar3d(5, 350, 115, 420, DARKGRAY, 1);
+			printg_cn(10, 360, WHITE, style, "filenum: %d", filenum);
+			printg_cn(10, 370, WHITE, style, "frnum: %d", frnum);
+			bar(121, 440, 639, 479);
+			button(2, 275, 118, 314, 0);	//保存流
+		}
+		if(filenum > 0)
+		{
+			int k;
+			char tempname[20] = {0};
+			for(k=1; k<filenum+1; k++)
+			{
+				formatname(k, tempname);
+				if(mouse_press(BASEX, BASEY+16*(k-1), BASEX+150, BASEY+16*k-1) == 1)
+				{
+					button(BASEX, BASEY+16*(k-1), BASEX+150, BASEY+16*k-1, 1);
+					chdir(prjdir);
+					if(stream_read(tempname, pixlist1, &pixnum1) != -1)
+					{
+						view = 1;
+					}
+					chdir("../");
+				}
+			}
 		}
 		if(view == 1)
 		{
@@ -2414,10 +2623,32 @@ int filelink(int *nx, int *ny, int *nb)
 			{
 				printg_cn(30, 55, 0, style, "%Z", "新建工程"); 
 				printg_cn(30, 95, 0, style, "%Z", "添加文件"); 
-				printg_cn(45, 135, 0, style, "%Z", "撤回");
+				printg_cn(30, 135, 0, style, "%Z", "撤销添加");
+				printg_cn(30, 175, 0, style, "%Z", "导入工程");
+				printg_cn(30, 215, 0, style, "%Z", "关闭工程");
+				printg_cn(38, 255, 0, style, "%Z", "创建流");
+				printg_cn(38, 295, 0, style, "%Z", "保存流");
 				button(2, 35, 118, 74, 0);		//新建工程
 				button(2, 75, 118, 114, 0);		//添加文件
 				button(2, 115, 118, 154, 0); 	//撤回
+				button(2, 155, 118, 194, 0); 	//导入工程
+				button(2, 195, 118, 234, 0);	//关闭工程
+				button(2, 235, 118, 274, 0);	//创建流
+				button(2, 275, 118, 314, 0);	//保存流
+				bar3d(5, 350, 115, 420, DARKGRAY, 1);
+				printg_cn(10, 360, WHITE, style, "filenum: %d", filenum);
+				printg_cn(10, 370, WHITE, style, "frnum: %d", frnum);
+				if(filenum > 0)
+				{
+					int k;
+					char tempname[20] = {0};
+					for(k=1; k<filenum+1; k++)
+					{
+						formatname(k, tempname);
+						button(BASEX, BASEY+16*(k-1), BASEX+150, BASEY+16*k-1, 0);
+						printg_cn(BASEX+5, BASEY+16*(k-1)+4, WHITE, style, tempname);
+					}
+				}
 			}
 			view = 0;
 		}

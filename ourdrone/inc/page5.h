@@ -5,6 +5,9 @@
 #define YOFF 60
 #define XSIZE 440
 #define YSIZE 360
+
+#define BASEX 150
+#define BASEY 70
 typedef struct Pixel
 {
     int far x;
@@ -13,6 +16,21 @@ typedef struct Pixel
     int far color;
     int far id;
 }PIX;
+
+typedef struct Frame
+{
+    int far fileid;
+    int far cycles;
+    int far dx;
+    int far dy;
+    int far dz;
+    float far dA;
+    float far dB;
+    float far dC;
+    float far percent;
+
+}FRAME;
+
 
 int page5();
 int editpic(int *nx, int *ny, int *nb);

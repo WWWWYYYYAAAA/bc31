@@ -3,6 +3,8 @@
 #include "printg.h"
 #include "visual.h"
 #include "mouse.h"
+#include "page5.h"
+
 extern int MX, MY;
 
 void ball(int x, int y, int r, int color)

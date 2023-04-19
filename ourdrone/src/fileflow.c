@@ -88,23 +88,24 @@ int creatconf(char * prjdir)
 	return 0;
 }
 
-int openconf(char * prjdir, int *filenum)
+int openconf(char * prjdir, int *filenum, int *frnum)
 {
 	FILE *fp;
 	chdir(prjdir);
-	if((fp = fopen("./confb", "wb")) == NULL)
+	if((fp = fopen("./confb", "rb")) == NULL)
     {
 		error(3);
         return -1;
     }
 	fseek(fp, 0, 0);
 	fread(filenum, 2, 1, fp);
+	fread(frnum, 2, 1, fp);
 	fclose(fp);
 	chdir("../");
 	return 0;
 }
 
-int updatenum(char * prjdir, int *filenum)
+int updatenum(char * prjdir, int *filenum, int *frnum)
 {
 	FILE *fp;
 	chdir(prjdir);
@@ -115,7 +116,51 @@ int updatenum(char * prjdir, int *filenum)
     }
 	fseek(fp, 0, 0);
 	fwrite(filenum, 2, 1, fp);
+	fwrite(frnum, 2, 1, fp);
 	fclose(fp);
+	chdir("../");
+	return 0;
+}
+
+int saveframe(char * prjdir, FRAME * framep,int frnum)
+{
+	int i;
+	FILE *fp;
+	chdir(prjdir);
+	if((fp = fopen("./config.txt", "w")) == NULL)
+    {
+		error(3);
+        return -1;
+    }
+	for(i=0; i<frnum; i++)
+	{
+		fprintf(fp, "%d %d %d %d %d %f %f %f %f\n", 
+			framep[i].fileid, framep[i].cycles, 
+			framep[i].dx, framep[i].dy, framep[i].dz, 
+			framep[i].dA, framep[i].dB, framep[i].dC, framep[i].percent);
+	}
+	fclose(fp);
+	chdir("../");
+	return 0;
+}
+
+int loadframe(char * prjdir, FRAME * framep, int frnum)
+{
+	int i;
+	FILE *fp;
+	chdir(prjdir);
+	if((fp = fopen("./config.txt", "r")) == NULL)
+    {
+		error(3);
+        return -1;
+    }
+	for(i=0; i<frnum; i++)
+	{
+		fscanf(fp, "%d%d%d%d%d%f%f%f%f", 
+			&framep[i].fileid, &framep[i].cycles, 
+			&framep[i].dx, &framep[i].dy, &framep[i].dz, 
+			&framep[i].dA, &framep[i].dB, &framep[i].dC, &framep[i].percent);
+	}
 	chdir("../");
 	return 0;
 }
