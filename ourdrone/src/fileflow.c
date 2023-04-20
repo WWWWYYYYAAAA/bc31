@@ -124,6 +124,24 @@ int updatenum(char * prjdir, int *filenum, int *frnum)
 	return 0;
 }
 
+// int getfilenum(char * prjdir, int *filenum)
+// {
+// 	int frnum;
+// 	FILE *fp;
+// 	if(chdir(prjdir)==0)
+// 	{
+// 	if((fp = fopen("./configb.txt", "r")) == NULL)
+//     {
+// 		error(3);
+//         return -1;
+//     }
+// 	fscanf(fp, "%d%d", filenum, &frnum);
+// 	fclose(fp);
+// 	chdir("../");
+// 	}
+// 	return frnum;
+// }
+
 int saveframe(char * prjdir, FRAME * framep,int frnum)
 {
 	int i;

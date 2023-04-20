@@ -13,5 +13,6 @@ int saveframe(char * prjdir, FRAME * framep,int frnum);
 int loadframe(char * prjdir, FRAME * framep, int frnum);
 int getnum(char * prjdir);
 int readdronetxt(char * path, PIX *pixlist, int * pixnum);
+int getfilenum(char * prjdir, int *filenum);
 
 #endif

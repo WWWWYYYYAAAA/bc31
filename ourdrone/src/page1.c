@@ -29,6 +29,9 @@ int page1()
 	button(2, 440, 98, 477, 0);
 	sliderbase(617, 201, nx, ny, 20, 278, 0, 0, 0);
 	clrmous(ny, nx);
+	printg_cn(20, 40, BLACK, style,"%z", "第一部分");
+	printg_cn(20, 80, BLACK, style,"%z", "第二部分");
+	printg_cn(20, 120, BLACK, style,"%z", "第三部分");
 	printg_cn(28, 160, BLACK, style,"%z", "自定义");
 	while(1)
 	{
