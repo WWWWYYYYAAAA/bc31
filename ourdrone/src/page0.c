@@ -3,7 +3,7 @@
 #include <visual.h>
 #include <dos.h>
 #include "printg.h"
-#include "hz.h"
+//#include "hz.h"
 #include "bmp.h"
 //图形化输出
 
@@ -46,10 +46,12 @@ int page0()
 	h = h * scale;
 	w = w * scale;
 	putbmp_zoom(0, 0, "./pic/begin.bmp", scale, scale); //放置背景模板
-	bar3d(180, 300, 460, 360, DARKGRAY, 0);
+	bar_3d(180, 300, 460, 360, DARKGRAY, 0);
 	button(180, 300, 460, 360, 0);
-	bar3d(180, 380, 460, 440, DARKGRAY, 0);
+	bar_3d(180, 380, 460, 440, DARKGRAY, 0);
 	button(180, 380, 460, 440, 0);
+	bar_3d(600, 440, 639, 479, DARKGRAY, 0);
+	//button(600, 440, 639, 479, 0);
 	//printg(300, 220, 0, "title");
 	/*
 	puthz(100, 100, 16, 26, BLACK, "无人机");
@@ -73,11 +75,16 @@ int page0()
 			button(180, 300, 460, 360, 1);
 			return 1;
 		}
-		if(mouse_press(180, 380, 460, 440) == 1)
+		else if(mouse_press(180, 380, 460, 440) == 1)
 		{
 			button(180, 380, 460, 440, 1);
 			return 5;
 		}
+		else if(mouse_press(600, 440, 639, 479)==1)
+		{
+			button(600, 440, 639, 479, 1);
+			return -2;
+		}
+		
 	}
-	return 0;
 }

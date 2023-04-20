@@ -7,23 +7,16 @@
 #include "page5.h"
 #include "mouse.h"
 #include "page6.h"
+#include "page234.h"
+
 void main()
 {
 	int graphdriver = VGA;
 	int	graphmode = VGAHI;
 	int page=-1;
-	initgraph(&graphdriver, &graphmode, "C://BORLANDC//BGI");
+	initgraph(&graphdriver, &graphmode, "C:/BORLANDC/BGI");
 	cleardevice();
 	mouseinit();
-	/*
-	bar3d(0, 0, 100, 480, LIGHTGRAY, 0);
-	//button(100, 100, 200, 200, mousig[0]);
-	bar3d(100, 0, 639, 20, LIGHTGRAY, 0);
-	bar3d(440, 21, 639, 479, DARKGRAY, 1);
-	bar2d(442, 24, 637, 200, BLACK);
-	sliderbase(617, 201, nx, ny, 20, 278, 0, 0, 0);
-	*/
-	
 	while(1)
 	{
 		switch(page)
@@ -78,5 +71,10 @@ void main()
 		newmouse(&nx, &ny, &nb);
 		delay(20);
 		*/
+		if(page == -2)
+		{
+			break;
+		}
 	}
+	delay(1000);
 }
