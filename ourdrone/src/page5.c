@@ -16,7 +16,7 @@
 #include "page5.h"
 #include "tdedit.h"
 #include <dir.h>
-
+#include "player.h"
 
 extern MX, MY;
 
@@ -46,11 +46,12 @@ int page5()
 	button(241, 0, 320, 30, 0);
 	button(321, 0, 400, 30, 0);
 	button(2, 440, 118, 477, 0);
+
 	printg_cn(10, 15, BLACK, style, "%z", "平面编辑");
-	
 	printg_cn(90, 15, BLACK, style, "%z", "三维预览");
 	printg_cn(170, 15, BLACK, style, "%z", "三维处理");
 	printg_cn(250, 15, BLACK, style, "%z", "文件链接");
+	printg_cn(330, 15, BLACK, style, "%z", "导出工程");
 	setcolor(WHITE);
 	rectangle(140-2, 60-2, 580+2, 420+2); //作图区
 	clrmous(ny, nx);
@@ -136,6 +137,7 @@ int page5()
 			
 		break;
 		case 5:
+			outfinal(&nx, &ny, &nb);
 			button(321, 0, 400, 30, 0);
 		break;
 		}
@@ -153,10 +155,10 @@ int editpic(int *nx, int *ny, int *nb)
 {
 	int style[5] = {0, 2, 0, 0, 1}, h, w, edit = 0, buffsize, pixnum = 0;
 	char path[20] = {0}, picpath[20] = {0};
-	PIX pixlist[400];
+	PIX pixlist[LISTSIZE];
 	void far * ballbuff;
 	float scale = 1;
-	void far * balllist[400];
+	void far * balllist[LISTSIZE];
 	buffsize = imagesize(0, 0, 8, 8);
 	setcolor(BLACK);
 	//rectangle(2, 34, 118, 74);
@@ -232,7 +234,7 @@ int editpic(int *nx, int *ny, int *nb)
 				setcolor(WHITE);
 				rectangle(140-2, 60-2, 580+2, 420+2);
 				edit = 0;
-				for(i=0; i<400; i++)
+				for(i=0; i<LISTSIZE; i++)
 				{
 					if(balllist[i] != NULL)
 					{
@@ -498,7 +500,7 @@ int editpic(int *nx, int *ny, int *nb)
 						setcolor(WHITE);
 						rectangle(140-2, 60-2, 580+2, 420+2);
 						edit = 0;
-						for(i=0; i<400; i++)
+						for(i=0; i<LISTSIZE; i++)
 						{
 							if(balllist[i] != NULL)
 							{
@@ -1223,7 +1225,7 @@ int picload(char * path)	//弃用
 int tdviwer(int *nx, int *ny, int *nb)
 {
 	int style[5] = {0, 2, 0, 0, 1}, show = 0, update = 1, pixnum, i, SP = 0,RO = 0, PO = 0, oldx, oldy, DX = 0, DY = 0;
-	PIX pixlist[400];
+	PIX pixlist[LISTSIZE];
 	float A = 0, B = 0,C=0, percent = 1;
 	int X, Y, Z;
 	printg_cn(45, 55, 0, style, "%Z", "导入"); 
@@ -1458,7 +1460,7 @@ int tdviwer(int *nx, int *ny, int *nb)
 int tdtrans(int *nx, int *ny, int *nb)
 {
 	int style[5] = {0, 2, 0, 0, 1}, show = 0, update = 1, pixnum = 0, i, RO = 0, PO = 0, SP = 0, oldx, oldy, DX = 0, DY = 0;
-	PIX pixlist[400];
+	PIX pixlist[LISTSIZE];
 	float A = 0, B = 0, C = 0, percent = 1;
 	int X, Y, Z;
 	button(2, 440, 118, 477, 0); 	//退出
@@ -2275,7 +2277,7 @@ int filelink(int *nx, int *ny, int *nb)
 {
 	int style[5] = {0, 2, 0, 0, 1}, filenum=0, pixnum1=0, i, remake, view = 0;
 	int prjflag = 0, frnum = 0;
-	PIX pixlist1[400];// pixlist2[400];
+	PIX pixlist1[LISTSIZE];// pixlist2[LISTSIZE];
 	FRAME STEP[200];
 
 	char prjdir[30]={0}, filename[10]={0};
@@ -2327,7 +2329,7 @@ int filelink(int *nx, int *ny, int *nb)
 			bar3d(121, 440, 639, 479, DARKGRAY, 1);
 			if(commandin(path, "path: ", 130, 455, 20) == 0)
 			{
-					clearpixlist(pixlist1, &pixnum1, 400);
+					clearpixlist(pixlist1, &pixnum1, LISTSIZE);
 					if(stream_read(path, pixlist1, &pixnum1) != -1)
 					{
 						filenum ++;
@@ -2342,6 +2344,8 @@ int filelink(int *nx, int *ny, int *nb)
 						bar3d(5, 350, 115, 420, DARKGRAY, 1);
 						printg_cn(10, 360, WHITE, style, "filenum: %d", filenum);
 						printg_cn(10, 370, WHITE, style, "frnum: %d", frnum);
+						setfillstyle(SOLID_FILL, LIGHTGRAY);
+						bar(XOFF, YOFF, XOFF+XSIZE, YOFF+YSIZE);
 						if(filenum > 0)
 						{
 							int k;
@@ -2385,6 +2389,8 @@ int filelink(int *nx, int *ny, int *nb)
 					{
 						int k;
 						char tempname[20] = {0};
+						setfillstyle(SOLID_FILL, LIGHTGRAY);
+						bar(XOFF, YOFF, XOFF+XSIZE, YOFF+YSIZE);
 						for(k=1; k<filenum+1; k++)
 						{
 							formatname(k, tempname);
@@ -2442,6 +2448,8 @@ int filelink(int *nx, int *ny, int *nb)
 					{
 						int k;
 						char tempname[20] = {0};
+						setfillstyle(SOLID_FILL, LIGHTGRAY);
+						bar(XOFF, YOFF, XOFF+XSIZE, YOFF+YSIZE);
 						for(k=1; k<filenum+1; k++)
 						{
 							formatname(k, tempname);
@@ -2465,7 +2473,7 @@ int filelink(int *nx, int *ny, int *nb)
 			prjflag = 0;
 			filenum = 0;
 			pixnum1 = 0;
-			clearpixlist(pixlist1, &pixnum1, 400);
+			clearpixlist(pixlist1, &pixnum1, LISTSIZE);
 			bar3d(5, 350, 115, 420, DARKGRAY, 1);
 			printg_cn(10, 360, WHITE, style, "filenum: %d", filenum);
 			printg_cn(10, 370, WHITE, style, "frnum: %d", frnum);
@@ -2586,6 +2594,7 @@ int filelink(int *nx, int *ny, int *nb)
 			bar3d(5, 350, 115, 420, DARKGRAY, 1);
 			printg_cn(10, 360, WHITE, style, "filenum: %d", filenum);
 			printg_cn(10, 370, WHITE, style, "frnum: %d", frnum);
+			setfillstyle(SOLID_FILL, LIGHTGRAY);
 			bar(121, 440, 639, 479);
 			button(2, 275, 118, 314, 0);	//保存流
 		}
@@ -2670,5 +2679,270 @@ int clearpixlist(PIX * pixlist, int * pixnum, int num)
 		pixlist[i].id = -1;
 	}
 	*pixnum = 0;
+	return 0;
+}
+
+int outfinal(int *nx, int *ny, int *nb)
+{
+	int style[5] = {0, 2, 0, 0, 1}, show = 0, update = 1, pixnum, i, SP = 0,RO = 0, PO = 0, oldx, oldy, DX = 0, DY = 0;
+	int count = 0, globalnum = 0;
+	PIX pixlist[LISTSIZE];
+	char dir[10]={0}, filename[10]={0};
+	float A = 0, B = 0,C=0, percent = 1;
+	int X, Y, Z;
+	printg_cn(45, 55, 0, style, "%Z", "导入"); 
+	printg_cn(45, 95, 0, style, "%Z", "关闭");
+	button(2, 35, 118, 74, 0); 		//导入
+	button(2, 75, 118, 114, 0); 	//清空
+	setcolor(LIGHTGRAY);
+	rectangle(140-2, 60-2, 580+2, 420+2);
+	//bar3d(140, 60, 580, 420, DARKGRAY, 1);
+	setfillstyle(SOLID_FILL, BLACK);
+	bar(140, 60, 580, 420);
+	printg_cn(612, 120, BLACK, style, "RO");
+	printg_cn(612, 160, BLACK, style, "PO");
+	printg_cn(612, 200, BLACK, style, "SP");
+	printg_cn(612, 240, BLACK, style, "RE");
+	printg_cn(616, 280, BLACK, style, "+");
+	printg_cn(616, 320, BLACK, style, "-");
+	button(600, 100, 639, 139, 0); 	//RO
+	button(600, 140, 639, 179, 0); 	//PO
+	button(600, 180, 639, 219, 0); 	//SP
+	button(600, 220, 639, 259, 0); 	//RE
+	button(600, 260, 639, 299, 0); 	//+
+	button(600, 300, 639, 340, 0); 	//-
+	bar3d(5, 120, 115, 200, DARKGRAY, 1);
+	printg_cn(10, 130, WHITE, style, "dx: %d", DX);
+	printg_cn(10, 140, WHITE, style, "dy: %d", DY);
+	printg_cn(10, 150, WHITE, style, "A: %d", (int)(A*180/3.14159));
+	printg_cn(10, 160, WHITE, style, "B: %d", (int)(C*180/3.14159));
+	printg_cn(10, 170, WHITE, style, "C: %d", (int)(B*180/3.14159));
+	printg_cn(10, 180, WHITE, style, "percent: %d.%d",(int)(percent/1), ((int)(percent*10))%10);
+	while (1)
+	{
+		if(mouse_press(2, 440, 118, 477) == 1)//退出
+		{
+			button(2, 440, 118, 477, 1);
+			setfillstyle(SOLID_FILL, LIGHTGRAY);
+			clrmous(*nx, *ny);
+			setfillstyle(SOLID_FILL, LIGHTGRAY);
+			bar(140-2, 60-2, 580+2, 420+2);
+			bar(595, 95, 639, 345); 	//功能栏
+			setcolor(WHITE);
+			rectangle(140-2, 60-2, 580+2, 420+2);
+			//bar(600, 440, 639, 479);
+			bar(2, 34, 118, 439);//picedit panelclear
+			delay(500);
+			return 0;
+		}
+		else if(mouse_press(2, 35, 118, 74) == 1) //导入
+		{
+			clrmous(*nx, *ny);
+			button(2, 35, 118, 74, 2);
+			bar3d(121, 440, 639, 479, DARKGRAY, 1);
+			if(commandin(dir, "path: ", 130, 455, 10) == 0)
+			{
+				//if(stream_read(path, pixlist, &pixnum)!=-1)
+				playtofile(dir);
+				count = getnum(dir);
+				show = 1;
+				//printf("%d\n", count);
+			}
+			setfillstyle(SOLID_FILL, LIGHTGRAY);
+			bar(121, 440, 639, 479);
+			button(2, 35, 118, 74, 0);
+		}
+		else if(mouse_press(2, 75, 118, 114) == 1)		//clear
+		{
+			button(2, 75, 118, 114, 1);
+			bar3d(121, 440, 639, 479, DARKGRAY, 1);
+			if(confirm())
+			{
+				setfillstyle(SOLID_FILL, LIGHTGRAY);
+				bar(140, 60, 580, 420);
+				bar(121, 440, 639, 479);
+				bar3d(140, 60, 580, 420, DARKGRAY, 1);
+				show = 0;
+			}
+			else
+			{
+				setfillstyle(SOLID_FILL, LIGHTGRAY);
+				bar(121, 440, 639, 479);
+			}
+		}
+		else if(mouse_press(639 - 30,64 - 30, 639, 64) == 1 && error(0))	//error
+        {
+			//clrmous(*ny, *nx);
+            button(639 - 30,64 - 30, 639, 64, 1);
+            error(-1);
+			//setcolor(WHITE);
+			//rectangle(140-2, 60-2, 580+2, 420+2); 
+			//edit = 1;
+			bar3d(140, 60, 580, 420, DARKGRAY, 1);
+        }
+		if(mouse_press(600, 100, 639, 139) == 1)	//RO
+		{
+			if(RO == 0)
+				RO = 1;
+			else if(RO == 1)
+				RO = 0;
+			//printf("RO %d\n", RO);
+			clrmous(*nx, *ny);
+			button(600, 100, 639, 139, 2*RO);
+			delay(200);
+		}
+		else if(mouse_press(600, 140, 639, 179) == 1)	//PO
+		{
+			if(PO == 0)
+				PO = 1;
+			else if(PO == 1)
+				PO = 0;
+			clrmous(*nx, *ny);
+			button(600, 140, 639, 179, 2*PO);
+			delay(200);
+		}
+		else if(mouse_press(600, 180, 639, 219) == 1)	//SP
+		{
+			//button(600, 180, 639, 219, 1);
+			if(SP == 0)
+			{
+				SP = 1;
+				RO = 0;
+				PO = 0;
+			}
+			else if(SP == 1)
+				SP = 0;
+			clrmous(*nx, *ny);
+			button(600, 180, 639, 219, 2*SP);
+			delay(200);
+		}
+		else if(mouse_press(600, 220, 639, 259) == 1)	//RE
+		{
+			button(600, 220, 639, 259, 1);
+			DX = 0;
+			DY = 0;
+			A = 0;
+			B = 0;
+			C = 0;
+			update = 1;
+			percent = 1;
+			
+		}
+		else if(mouse_press(600, 260, 639, 299) == 1)	//+
+		{
+			button(600, 260, 639, 299, 1);
+			percent += 0.05;
+			update = 1;
+			
+		}
+		else if(mouse_press(600, 300, 639, 340) == 1)	//-
+		{
+			button(600, 300, 639, 340, 1);
+			percent -= 0.05;
+			if(percent<0.05)
+			{
+				percent = 0.05;
+			}
+			update = 1;
+		}
+		
+		if(show == 1)
+		{
+			
+			globalnum ++;
+			if(chdir(dir)==0)
+			{
+			if(chdir("output")==0)
+			{
+			formatname(globalnum, filename);
+			clearpixlist(pixlist, &pixnum, LISTSIZE);
+			//strcat(filename, ".txt");
+			//stream_read(filename, pixlist, &pixnum);
+			//printf("%s\n", filename);
+			//printf("%d\n", globalnum);
+			//delay(5000);
+			//printf("%d\n", pixnum);
+			readdronetxt(filename, pixlist, &pixnum);
+			clrmous(*nx, *ny);
+			setfillstyle(SOLID_FILL, BLACK);
+			bar(140, 60, 580, 420);
+			for(i=0; i<pixnum; i++)
+			{
+				move_3d_p((float)(pixlist[i].x-XSIZE/2), (float)(pixlist[i].y), (float)(pixlist[i].z-YSIZE/2), A, B, &X, &Y, &Z, 0, 0, 0, 1);
+				move_3d_yaxis((float)X, (float)Y, (float)Z, C, &X, &Y, &Z, XOFF+XSIZE/2+DX, 0, YOFF+YSIZE/2+DY, percent);
+				if((X>145&&X<575)&&(Z>65&&Z<415))
+				{
+					ball(X, Z, 3, pixlist[i].color);
+				}
+				//printf("%d", pixlist[i].x);
+				//printf(" %d\n", X);
+			}
+			move_3d_p(20, 0, 0, A, B, &X, &Y, &Z, 0, 0, 0, 1);
+			move_3d_yaxis((float)X, (float)Y, (float)Z, C, &X, &Y, &Z, XOFF+XSIZE/2+DX, 0, YOFF+YSIZE/2+DY, 1);
+			setcolor(WHITE);
+			line(XOFF+XSIZE/2+DX,  YOFF+YSIZE/2+DY, X, Z);
+			move_3d_p(0, 20, 0, A, B, &X, &Y, &Z, 0, 0, 0, 1);
+			move_3d_yaxis((float)X, (float)Y, (float)Z, C, &X, &Y, &Z, XOFF+XSIZE/2+DX, 0, YOFF+YSIZE/2+DY, 1);
+			setcolor(WHITE);
+			line(XOFF+XSIZE/2+DX,  YOFF+YSIZE/2+DY, X, Z);
+			move_3d_p(0, 0, 20, A, B, &X, &Y, &Z, 0, 0, 0, 1);
+			move_3d_yaxis((float)X, (float)Y, (float)Z, C, &X, &Y, &Z, XOFF+XSIZE/2+DX, 0, YOFF+YSIZE/2+DY, 1);
+			setcolor(WHITE);
+			line(XOFF+XSIZE/2+DX,  YOFF+YSIZE/2+DY, X, Z);
+			//A+=0.01;
+			//B+=0.01;
+			//getch();
+			//update = 0;
+			chdir("../");
+			}
+			chdir("../");
+			}
+			if(globalnum == count)
+			{
+				globalnum = 0;
+			}
+		}
+		newmouse(nx, ny, nb);
+		//delay(10);
+		if(RO == 1)
+		{
+			if(mouse_press(140, 60, 580, 420) == 1)
+			{
+				B -= 0.01*(*nx - oldx);
+				A += 0.01*(*ny - oldy);
+				update = 1;
+			}
+		}
+		if(PO == 1)
+		{
+			if(mouse_press(140, 60, 580, 420) == 1)
+			{
+				DX += (*nx - oldx);
+				DY += (*ny - oldy);
+				update = 1;
+			}
+		}
+		if(SP == 1)
+		{
+			if(mouse_press(140, 60, 580, 420) == 1)
+			{
+				C += - 0.01*(*ny - oldy);
+				update = 1;
+			}
+		}
+		if(oldx != *nx||oldy != *ny)
+		{
+			bar3d(5, 120, 115, 200, DARKGRAY, 1);
+			printg_cn(10, 130, WHITE, style, "dx: %d", DX);
+			printg_cn(10, 140, WHITE, style, "dy: %d", DY);
+			printg_cn(10, 150, WHITE, style, "A: %d", (int)(A*180/3.14159));
+			printg_cn(10, 160, WHITE, style, "B: %d", (int)(C*180/3.14159));
+			printg_cn(10, 170, WHITE, style, "C: %d", (int)(B*180/3.14159));
+			printg_cn(10, 180, WHITE, style, "percent: %d.%d",(int)(percent/1), ((int)(percent*10))%10);
+		}
+		oldx = *nx;
+		oldy = *ny;
+		delay(20);
+	}
 	return 0;
 }

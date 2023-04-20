@@ -3,6 +3,7 @@
         "BMP.C": "cpp",
         "error.h": "c",
         "graphics.h": "c",
-        "visual.h": "c"
+        "visual.h": "c",
+        "GRAPHICS.H": "cpp"
     }
 }

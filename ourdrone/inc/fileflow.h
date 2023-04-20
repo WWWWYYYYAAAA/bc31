@@ -11,5 +11,7 @@ int openconf(char * prjdir, int *filenum, int *frnum);
 int updatenum(char * prjdir, int *filenum, int *frnum);
 int saveframe(char * prjdir, FRAME * framep,int frnum);
 int loadframe(char * prjdir, FRAME * framep, int frnum);
+int getnum(char * prjdir);
+int readdronetxt(char * path, PIX *pixlist, int * pixnum);
 
 #endif

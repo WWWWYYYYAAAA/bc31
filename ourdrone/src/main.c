@@ -6,6 +6,7 @@
 #include "page1.h"
 #include "page5.h"
 #include "mouse.h"
+#include "page6.h"
 void main()
 {
 	int graphdriver = VGA;
@@ -55,6 +56,10 @@ void main()
 		case 5:
 			cleardevice();
 			page = page5();
+		break;
+		case 6:
+			cleardevice();
+			page = page6();
 		break;
 		default:
 			exit(1);

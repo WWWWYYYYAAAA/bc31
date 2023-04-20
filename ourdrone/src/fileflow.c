@@ -71,7 +71,8 @@ int creatconf(char * prjdir)
 {
 	FILE *fp, *fpb;
 	mkdir(prjdir);
-	chdir(prjdir);
+	if(chdir(prjdir)==0)
+	{
 	if((fp = fopen("./config.txt", "w")) == NULL)
     {
 		error(3);
@@ -85,13 +86,15 @@ int creatconf(char * prjdir)
     }
 	fclose(fpb);
 	chdir("../");
+	}
 	return 0;
 }
 
 int openconf(char * prjdir, int *filenum, int *frnum)
 {
 	FILE *fp;
-	chdir(prjdir);
+	if(chdir(prjdir)==0)
+	{
 	if((fp = fopen("./configb.txt", "r")) == NULL)
     {
 		error(3);
@@ -100,13 +103,15 @@ int openconf(char * prjdir, int *filenum, int *frnum)
 	fscanf(fp, "%d%d", filenum, frnum);
 	fclose(fp);
 	chdir("../");
+	}
 	return 0;
 }
 
 int updatenum(char * prjdir, int *filenum, int *frnum)
 {
 	FILE *fp;
-	chdir(prjdir);
+	if(chdir(prjdir)==0)
+	{
 	if((fp = fopen("./configb.txt", "w")) == NULL)
     {
 		error(3);
@@ -115,6 +120,7 @@ int updatenum(char * prjdir, int *filenum, int *frnum)
 	fprintf(fp, "%d %d\n", *filenum, *frnum);
 	fclose(fp);
 	chdir("../");
+	}
 	return 0;
 }
 
@@ -122,7 +128,9 @@ int saveframe(char * prjdir, FRAME * framep,int frnum)
 {
 	int i;
 	FILE *fp;
-	chdir(prjdir);
+
+	if(chdir(prjdir)==0)
+	{
 	if((fp = fopen("./config.txt", "w")) == NULL)
     {
 		error(3);
@@ -137,6 +145,7 @@ int saveframe(char * prjdir, FRAME * framep,int frnum)
 	}
 	fclose(fp);
 	chdir("../");
+	}
 	return 0;
 }
 
@@ -144,7 +153,8 @@ int loadframe(char * prjdir, FRAME * framep, int frnum)
 {
 	int i;
 	FILE *fp;
-	chdir(prjdir);
+	if(chdir(prjdir)==0)
+	{
 	if((fp = fopen("./config.txt", "r")) == NULL)
     {
 		error(3);
@@ -158,5 +168,46 @@ int loadframe(char * prjdir, FRAME * framep, int frnum)
 			&framep[i].dA, &framep[i].dB, &framep[i].dC, &framep[i].percent);
 	}
 	chdir("../");
+	}
+	return 0;
+}
+
+int getnum(char * prjdir)
+{
+	FILE *fp;
+	int count;
+	if(chdir(prjdir)==0)
+	{
+	if(chdir("output")==0)
+	{
+	if((fp = fopen("./count.txt", "r")) == NULL)
+    {
+		error(3);
+        return -1;
+    }
+	fscanf(fp, "%d", &count);
+	fclose(fp);
+	chdir("../");
+	}
+	chdir("../");
+	}
+	return count;
+}
+
+int readdronetxt(char * path, PIX *pixlist, int * pixnum)
+{
+	FILE *fp;
+	int i;
+	if((fp = fopen(path, "r")) == NULL)
+    {
+		error(3);
+        return -1;
+    }
+	fscanf(fp, "%d", pixnum);
+	for(i=0; i<*pixnum; i++)
+	{
+		fscanf(fp, "%d%d%d%d%d", &pixlist[i].x, &pixlist[i].y, &pixlist[i].z, &pixlist[i].color, &pixlist[i].id);
+	}
+	fclose(fp);
 	return 0;
 }
