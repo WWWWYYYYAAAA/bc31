@@ -43,15 +43,15 @@ void main()
 		break;
 		case 2:
 			cleardevice();
-			page = page2();
+			page = page234("prj");
 		break;
 		case 3:
 			cleardevice();
-			page = page3();
+			page = page234("prj");
 		break;
 		case 4:
 			cleardevice();
-			page = page4();
+			page = page234("prj");
 		break;
 		case 5:
 			cleardevice();

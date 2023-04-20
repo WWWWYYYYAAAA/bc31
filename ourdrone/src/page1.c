@@ -72,15 +72,12 @@ int page1()
 		{
 			case 1:
 			bar2d(442, 55, 637, 200, BLACK);
-			example(ar1, br1, 540, 110, 20, 10, 1);
 			printg(130, 40, 0, "part %d", part);
 			if(mouse_press(442, 24, 472, 54) == 1)
 			{
 				button(442, 24, 472, 54, 1);
 				return 2;
 			}
-			ar1 += 0.05;
-			br1 += 0.05;
 			break;
 			case 2:
 			bar2d(442, 55, 637, 200, BLACK);

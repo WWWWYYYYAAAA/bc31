@@ -20,12 +20,12 @@ int page6()
 	int pause=0, video=0, nx=MX, ny=MY, nb, mx, my, in=1, sr = 2;
     float speed = 1, globalfloat = 0;
     float speedrank[6] = {0.5, 0.75, 1, 1.5, 2, 3};
-    char * prjdir[20] = {0};
+    char prjdir[20] = {0};
     int style[5] = {0, 2, 0, 0, 1};
     int pixnum, i, SP = 0,RO = 0, PO = 0, oldx, oldy, DX = 0, DY = 0;
 	int count = 0, globalnum = 0;
 	PIX pixlist[LISTSIZE];
-	char dir[10]={0}, filename[10]={0};
+	char filename[10]={0};
 	float A = 0, B = 0,C=0, percent = 1;
 	int X, Y, Z;
     int pausepattern[8] = {295, 438, 305, 445, 295, 452, 295, 438};
@@ -218,7 +218,7 @@ int page6()
                 //playtofile(dir);
 			    count = getnum(prjdir);
                 //printf("%d\n", count);
-                delay(5000);
+                //delay(5000);
                 setfillstyle(SOLID_FILL, BLACK);
                 bar(210, 220, 390, 260);
             }
@@ -250,8 +250,10 @@ int page6()
                 bar(80, 405, 520, 410);
                 ball(80+440.0*globalnum/count, 408, 5, DARKGRAY);
             }
-			chdir(prjdir);
-			chdir("output");
+			if(chdir(prjdir)==0)
+			{
+			if(chdir("output")==0)
+			{
 			formatname(globalnum, filename);
 			clearpixlist(pixlist, &pixnum, LISTSIZE);
 			//strcat(filename, ".txt");
@@ -291,7 +293,10 @@ int page6()
 			//B+=0.01;
 			//getch();
 			//update = 0;
-			chdir("../../");
+			chdir("../");
+			}
+			chdir("../");
+			}
 			if(globalnum == count)
 			{
 				globalnum = 0;
