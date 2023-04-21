@@ -1,21 +1,4 @@
-#include <graphics.h>
-#include "mouse.h"
-#include <visual.h>
-#include "printg.h"
-#include "TD.h"
-#include <dos.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include "page5.h"
-#include "fileflow.h"
-#include <dir.h>
-#include "error.h"
-#include "input.h"
-
-#define X0 70
-#define Y0 30
-
-extern MX, MY;
+#include "page234.h"
 
 // int example(float AR, float BR, int Xoffset,int Zoffset,int Yoffset, int sizeP, int sizeB)
 // {
@@ -406,16 +389,16 @@ int page234(char *prjdir)
 			//delay(5000);
 			//printf("%d\n", pixnum);
 			readdronetxt(filename, pixlist, &pixnum);
-			clrmous(nx, ny);
+			//clrmous(nx, ny);
 			setfillstyle(SOLID_FILL, BLACK);
 			bar(X0-5, Y0-5, X0+XSIZE+5, Y0+YSIZE+5);
 			for(i=0; i<pixnum; i++)
 			{
 				move_3d_p((float)(pixlist[i].x-XSIZE/2), (float)(pixlist[i].y), (float)(pixlist[i].z-YSIZE/2), A, B, &X, &Y, &Z, 0, 0, 0, 1);
-				move_3d_yaxis((float)X, (float)Y, (float)Z, C, &X, &Y, &Z, X0+XSIZE/2+DX, 0, Y0+YSIZE/2+DY, percent);
+				move_3d_yaxis((float)X, (float)Y, (float)Z, C, &X, &Y, &Z, X0+XSIZE/2+DX, 0, Y0+YSIZE/2+DY, percent*0.8);
 				if((X>X0&&X<X0+XSIZE)&&(Z>Y0&&Z<Y0+YSIZE))
 				{
-					ball(X, Z, 3, pixlist[i].color);
+					ball_light(X, Z, 2, pixlist[i].color);
 				}
 				//printf("%d", pixlist[i].x);
 				//printf(" %d\n", X);
@@ -472,7 +455,7 @@ int page234(char *prjdir)
 		}
         oldx = nx;
 		oldy = ny;
-        delay(20);
+		delay(10);
     }
     return 1;
 }

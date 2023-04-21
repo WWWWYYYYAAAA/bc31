@@ -1,9 +1,4 @@
-#include <stdio.h>
-#include "error.h"
-#include "page5.h"
-#include <string.h>
-#include <dir.h>
-#define NAMELEN 6
+#include "fileflow.h"
 //#include <alloc.h>
 //int stream_read(char * path, int (*dronelist)[5])
 int stream_read(char * path, PIX *pixlist,  int *dronenump)

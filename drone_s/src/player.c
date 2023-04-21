@@ -1,19 +1,4 @@
-#include <stdlib.h>
-#include <stdio.h>
-#include "TD.h"
-#include "visual.h"
-#include "page5.h"
-#include "fileflow.h"
-#include "mouse.h"
-#include <dir.h>
-#include <graphics.h>
-#include "error.h"
-#include <string.h>
-
-#define XSCREEN1 100
-#define XSCREEN2 540
-#define YSCREEN1 60
-#define YSCREEN2 420
+#include "player.h"
 
 int play(char * prjdir)
 {

@@ -1,6 +1,13 @@
 #ifndef _INPUT_H_
 #define _INPUT_H_
 
+#include "printg.h"
+#include <graphics.h>
+#include <bios.h>
+#include <string.h>
+#include <dos.h>
+
+
 int commandin(char * str, char *illu, int x, int y, int length);
 int confirm();
 

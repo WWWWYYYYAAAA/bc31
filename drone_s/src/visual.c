@@ -1,16 +1,9 @@
-#include <graphics.h>
-#include <dos.h>
-#include "printg.h"
 #include "visual.h"
-#include "mouse.h"
-#include "page5.h"
-
-extern int MX, MY;
 
 void ball(int x, int y, int r, int color)
 {
 	setwritemode(COPY_PUT);
-	//setcolor(color);
+	setcolor(color);
 	setfillstyle(SOLID_FILL, color);
 	//circle(x, y, r);
 	//floodfill(x, y, color);
@@ -22,6 +15,15 @@ void ball(int x, int y, int r, int color)
 	setcolor(WHITE);
 	circle(x, y, r);
 	setwritemode(COPY_PUT);
+}
+
+void ball_light(int x, int y, int r, int color)
+{
+	setwritemode(COPY_PUT);
+	setcolor(color);
+	setfillstyle(SOLID_FILL, color);
+	fillellipse(x, y, r, r);
+	putpixel(x, y, WHITE);
 }
 
 void bar_3d(int x1, int y1, int x2, int y2, int color, int style)

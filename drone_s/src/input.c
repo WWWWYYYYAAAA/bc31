@@ -1,9 +1,4 @@
-#include "printg.h"
-#include <graphics.h>
-#include <bios.h>
-#include <string.h>
-#include <dos.h>
-
+#include "input.h"
 int commandin(char * str, char *illu, int x, int y, int length)
 {
 	int style[5] = {0, 2, 0, 0, 1};

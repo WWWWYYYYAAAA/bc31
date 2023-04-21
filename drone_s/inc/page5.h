@@ -1,6 +1,25 @@
 #ifndef _PAGE5_H_
 #define _PAGE5_H_
 
+#include <graphics.h>
+#include "mouse.h"
+#include <visual.h>
+#include <dos.h>
+#include <bios.h>
+#include "printg.h"
+#include "bmp.h"
+#include <string.h>
+#include "input.h"
+#include "alloc.h"
+#include "conio.h"
+#include "fileflow.h"
+#include "error.h"
+#include "TD.h"
+#include "tdedit.h"
+#include <dir.h>
+#include "player.h"
+#include "astruct.h"
+
 #define XOFF 140
 #define YOFF 60
 #define XSIZE 440
@@ -8,28 +27,8 @@
 #define LISTSIZE 600
 #define BASEX 150
 #define BASEY 70
-typedef struct Pixel
-{
-    int far x;
-    int far y;
-    int far z;
-    int far color;
-    int far id;
-}PIX;
 
-typedef struct Frame
-{
-    int far fileid;
-    int far cycles;
-    int far dx;
-    int far dy;
-    int far dz;
-    float far dA;
-    float far dB;
-    float far dC;
-    float far percent;
-
-}FRAME;
+extern MX, MY;
 
 
 int page5();

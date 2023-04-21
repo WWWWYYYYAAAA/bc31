@@ -1,15 +1,5 @@
-#include <graphics.h>
-#include <stdarg.h>
-#include <string.h>
-#include <alloc.h>
-#include <dos.h>
-#include <stdio.h>
-#include<conio.h>
-#include<stdlib.h>
-#include<string.h>
-//图形化print
-#define ON 1
-#define OFF 0
+#include "printg.h"
+
 int do_printg_s(char far * p0, int x0, int y0, int color, const char * str, va_list arg);
 int do_printg_s_cn(char far * p0, int x0, int y0, int color, int style[5], const char * str, va_list arg);
 int g_out(int x0, int y0, int color, char far *p0, int style[5]);

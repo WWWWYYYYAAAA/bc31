@@ -1,24 +1,4 @@
-#include <graphics.h>
-#include "mouse.h"
-#include <visual.h>
-#include <dos.h>
-#include <bios.h>
-#include "printg.h"
-#include "bmp.h"
-#include <string.h>
 #include "page5.h"
-#include "input.h"
-#include "alloc.h"
-#include "conio.h"
-#include "fileflow.h"
-#include "error.h"
-#include "TD.h"
-#include "page5.h"
-#include "tdedit.h"
-#include <dir.h>
-#include "player.h"
-
-extern MX, MY;
 
 
 //开始界�?

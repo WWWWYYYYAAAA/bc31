@@ -4,6 +4,10 @@
         "error.h": "c",
         "graphics.h": "c",
         "visual.h": "c",
-        "GRAPHICS.H": "cpp"
+        "GRAPHICS.H": "cpp",
+        "printg.h": "c",
+        "mouse.h": "c",
+        "input.h": "c",
+        "dos.h": "c"
     }
 }

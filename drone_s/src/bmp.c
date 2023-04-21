@@ -1,6 +1,4 @@
-#include <stdio.h>
-#include <graphics.h>
-#include "error.h"
+#include "bmp.h"
 
 int putbmp(int x, int y, char *s)
 {

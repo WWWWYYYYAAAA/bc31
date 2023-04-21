@@ -1,11 +1,4 @@
-#include <graphics.h>
-#include "printg.h"
-#include "mouse.h"
-#include "visual.h"
-#define ERRORX 121
-#define ERRORY 34
-#define YEND 64
-#define XEND 639
+#include "error.h"
 
 int error(int signal)
 {

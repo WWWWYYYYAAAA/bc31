@@ -1,10 +1,4 @@
-#include <graphics.h>
-#include "mouse.h"
-#include <visual.h>
-#include <dos.h>
-#include "printg.h"
-//#include "hz.h"
-#include "bmp.h"
+#include "page0.h"
 //Í¼ÐÎ»¯Êä³ö
 
 int initialization()

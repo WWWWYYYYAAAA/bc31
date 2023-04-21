@@ -1,20 +1,5 @@
-#include <stdio.h>
-#include <graphics.h>
-#include "mouse.h"
-#include <dos.h>
-#include "visual.h"
-#include "page5.h"
-#include "fileflow.h"
-#include <dir.h>
-#include "TD.h"
-#include "error.h"
-#include "printg.h"
-#include "input.h"
+#include "page6.h"
 
-#define X0 70
-#define Y0 30
-
-extern MX, MY;
 int page6()
 {
 	int pause=0, video=0, nx=MX, ny=MY, nb, mx, my, in=1, sr = 2;
