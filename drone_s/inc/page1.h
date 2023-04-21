@@ -12,7 +12,7 @@
 #include "page5.h"
 #include "astruct.h"
 
-#define XLS 475
+#define XLS 480
 #define YLS 70
 #define SCALE 0.25
 #define BLANK 50
