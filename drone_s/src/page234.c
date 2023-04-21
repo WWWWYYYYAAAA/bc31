@@ -55,8 +55,8 @@ int page234(char *prjdir)
     ball(420, 450, 2, WHITE);
     ball(450, 450, 2, WHITE);
     ball(480, 450, 2, WHITE);
-    printg_cn(318,430, WHITE, style, "0.75");
-    printg_cn(350,430, WHITE, style, "0.5");
+    printg_cn(319,430, WHITE, style, "0.5");
+    printg_cn(346,430, WHITE, style, "0.75");
     printg_cn(387,430, WHITE, style, "1");
     printg_cn(410,430, WHITE, style, "1.5");
     printg_cn(447,430, WHITE, style, "2");

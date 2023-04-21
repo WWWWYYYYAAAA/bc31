@@ -6,6 +6,7 @@ int page1()
 	int mousig[10] = {0};
 	int nylist[10] = {0};
 	int style[5] = {0, 2, 0, 0, 1}, filenum=0, filevect=0, dronenum=0;
+	int style1[5] = {0, 2, 0, 0, 3};
 	char prjlist[3][20] = {"EPRJ1", "EPRJ2", "EPRJ3"};
 	char * prjvect, name[20] = {0};
 	float signal1;
@@ -31,6 +32,10 @@ int page1()
 	printg_cn(28, 160, BLACK, style,"%z", "自定义");
 	//int openconf(char * prjdir, int *filenum, int *frnum)
 
+	printg_cn(130, 40, BLACK, style1, "%z %z", "第一部分", "回顾历史");
+	//华中科技大学见证了中国高教事业的两次大发展，被誉为“新中国高等教育发展的缩影。
+	printg_cn(110, 95, BLACK, style, "    %z", "华中科技大学见证了中国高教事业的两次");
+	printg_cn(110, 115, BLACK, style, "%z,%z", "大发展","被誉为新中国高等教育发展的缩影。");
 	//初始化小窗
 	prjvect = prjlist[part-1];
 	filenum = getnum(prjvect);
@@ -63,7 +68,11 @@ int page1()
 			swch = 0;
 			//更新小窗向量
 			setfillstyle(SOLID_FILL, LIGHTGRAY);
-			bar(130, 40, 180, 60);
+			bar(105, 40, 435, 470);
+			printg_cn(130, 40, BLACK, style1, "%z %z", "第一部分", "回顾历史");
+			printg_cn(110, 95, BLACK, style, "    %z", "华中科技大学见证了中国高教事业的两次");
+			printg_cn(110, 115, BLACK, style, "%z,%z", "大发展","被誉为新中国高等教育发展的缩影。");
+			//printg_cn(110, 135, BLACK, style, "%z", "");
 		}
 		else if(mouse_press(0, 60, 98, 99) == 1)
 		{
@@ -76,7 +85,8 @@ int page1()
 			swch = 0;
 			//更新小窗向量
 			setfillstyle(SOLID_FILL, LIGHTGRAY);
-			bar(130, 40, 180, 60);
+			bar(105, 40, 435, 470);
+			printg_cn(130, 40, BLACK, style1, "%z %z", "第二部分", "着眼当下");
 		}
 		else if(mouse_press(0, 100, 98, 139) == 1)
 		{
@@ -89,7 +99,8 @@ int page1()
 			swch = 0;
 			//更新小窗向量
 			setfillstyle(SOLID_FILL, LIGHTGRAY);
-			bar(130, 40, 180, 60);
+			bar(105, 40, 435, 470);
+			printg_cn(130, 40, BLACK, style1, "%z %z", "第三部分", "展望未来");
 		}
 		else if(mouse_press(2, 440, 98, 477) == 1)
 		{
@@ -100,6 +111,10 @@ int page1()
 		{
 			button(0, 140, 98, 179, 1);
 			part = 4;
+		}
+		if(mouse_press(442, 24, 637, 200))
+		{
+			clrmous(nx, ny);
 		}
 		if(part>=1 && part<=3)
 		{
@@ -121,7 +136,11 @@ int page1()
 					bar2d(442, 55, 637, 200, BLACK);
 					for(i=0; i<dronenum; i++)
 					{
-						ball_base((dronelist[i].x)*SCALE+XLS, (dronelist[i].z)*SCALE+YLS, 1, dronelist[i].color);
+						if((((dronelist[i].x)*SCALE+XLS)>440)&& 
+						   (((dronelist[i].x)*SCALE+XLS)<639)&&
+						   (((dronelist[i].z)*SCALE+YLS)>40)&&
+						   (((dronelist[i].z)*SCALE+YLS)<190))
+							ball_base((dronelist[i].x)*SCALE+XLS, (dronelist[i].z)*SCALE+YLS, 1, dronelist[i].color);
 					}
 					chdir("..");
 				}
