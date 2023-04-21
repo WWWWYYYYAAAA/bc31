@@ -19,5 +19,6 @@ int slider(int x0, int y0, int nx, int ny, int wid, int len, int direct, int sty
 void silder_depature(int nynum, int x0, int y0, int wid, int len, int direct, int style);
 void bar_3d(int x1, int y1, int x2, int y2, int color, int style);
 void ball_light(int x, int y, int r, int color);
+void ball_base(int x, int y, int r, int color);
 
 #endif

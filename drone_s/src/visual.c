@@ -26,6 +26,14 @@ void ball_light(int x, int y, int r, int color)
 	putpixel(x, y, WHITE);
 }
 
+void ball_base(int x, int y, int r, int color)
+{
+	setwritemode(COPY_PUT);
+	setcolor(color);
+	setfillstyle(SOLID_FILL, color);
+	fillellipse(x, y, r, r);
+}
+
 void bar_3d(int x1, int y1, int x2, int y2, int color, int style)
 {
 	switch(style)

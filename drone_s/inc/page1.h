@@ -14,7 +14,7 @@
 
 #define XLS 475
 #define YLS 70
-#define SCALE 0.3
+#define SCALE 0.25
 #define BLANK 50
 
 int page1();

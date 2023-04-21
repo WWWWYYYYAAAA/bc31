@@ -1,160 +1,5 @@
 #include "page234.h"
 
-// int example(float AR, float BR, int Xoffset,int Zoffset,int Yoffset, int sizeP, int sizeB)
-// {
-// 		int i, j, size, pic1x=0, pic1y=0;
-// 		int state = 0;
-// 		float a, b, d;
-// 		float tix, tiy, tiz, tin;
-// 		int tempx, tempy, tempz, temp;
-// 		int k, l, count;
-// 		float cube33[27][4];
-// 		int cube33out[27][4] ={{0}};
-// 		int enableM = 1, enableC = 0, resetM = 0, resetC = 0, flag = 0;
-// 		void far * pic1;
-// 		count = 0;
-// 		for(a=0; a<3; a++)
-// 		{
-// 			for(b=0; b<3; b++)
-// 			{
-// 				for(d=0; d<3; d++)
-// 				{
-// 					cube33[count][0] = a-1;
-// 					cube33[count][1] = b-1;
-// 					cube33[count][2] = d-1;
-// 					cube33[count][3] = count;
-// 					count++;
-// 				}
-// 			}
-// 		}
-// 		//size = imagesize(0, 0, 150, 150);
-// 	//update
-// 	{
-// 		for(i=0; i<27; i++)
-// 			{
-// 					move_3d(cube33[i][0]*sizeP, cube33[i][1]*sizeP, cube33[i][2]*sizeP, AR, BR, &cube33out[i][0], &cube33out[i][1], &cube33out[i][2], Xoffset, Yoffset, Zoffset);
-// 					cube33out[i][3] = i;
-// 			}
-// 			for(i=0; i<26; i++)
-// 			{
-// 				for(j=0; j<26-i; j++)
-// 				{
-// 					if(cube33out[j][1]>cube33out[j+1][1])
-// 					{
-// 						tempx = cube33out[j][0];
-// 						tempy = cube33out[j][1];
-// 						tempz = cube33out[j][2];
-// 						temp = cube33out[j][3];
-// 						cube33out[j][0] = cube33out[j+1][0];
-// 						cube33out[j][1] = cube33out[j+1][1];
-// 						cube33out[j][2] = cube33out[j+1][2];
-// 						cube33out[j][3] = cube33out[j+1][3];
-// 						cube33out[j+1][0] = tempx;
-// 						cube33out[j+1][1] = tempy;
-// 						cube33out[j+1][2] = tempz;
-// 						cube33out[j+1][3] = temp;
-// 						tix = cube33[j][0];
-// 						tiy = cube33[j][1];
-// 						tiz = cube33[j][2];
-// 						tin = cube33[j][3];
-// ;						cube33[j][0] = cube33[j+1][0];
-// 						cube33[j][1] = cube33[j+1][1];
-// 						cube33[j][2] = cube33[j+1][2];
-// 						cube33[j][3] = cube33[j+1][3];
-// 						cube33[j+1][0] = tix;
-// 						cube33[j+1][1] = tiy;
-// 						cube33[j+1][2] = tiz;
-// 						cube33[j+1][3] = tin;
-// 					}
-// 				}
-// 			}
-// 			for(i=0; i<27; i++)
-// 			{
-// 				if(cube33[i][0] > 0 && cube33[i][1] > 0 && cube33[i][2] > 0)
-// 					ball(cube33out[i][0], cube33out[i][2], sizeB, RED);
-// 				else if(cube33[i][0] > 0 && cube33[i][1] < 0 && cube33[i][2] > 0)
-// 					ball(cube33out[i][0], cube33out[i][2], sizeB, YELLOW);
-// 				else
-// 					ball(cube33out[i][0], cube33out[i][2], sizeB, CYAN);
-// 			}
-// 			delay(20);
-// 	}
-// }
-// //ÂÖ®Â±èÊîæÊò†
-// int page2()
-// {
-// 	int nx , ny, nb;
-// 	//begine
-// 	float AR=0, BR=0;
-// 	int Xoffset = 320, Zoffset = 240, Yoffset = 20;
-// 	//end
-// 	clrmous(ny, nx);
-// 	bar2d(0, 0, 639, 479, BLACK);
-// 	bar2d(610, 0, 639, 29, RED);
-// 	button(610, 0, 639, 29, 0);
-// 	bar_3d(0, 0, 609, 29, LIGHTGRAY, 0);
-// 	printg(10, 5, 0, "part1/page2");
-// 	//begine
-		
-// 	//end
-// 	while(1)
-// 	{
-// 		//ÈÅÆÁΩ©
-// 			bar2d(240, 160, 400, 320, BLACK);
-// 		newmouse(&nx, &ny, &nb);
-// 		//begine
-// 		example(AR, BR, Xoffset, Zoffset, Yoffset, 20, 3);
-// 		AR+=0.01;
-// 		BR+=0.01;
-// 		//end
-// 		if(mouse_press(610, 0, 639, 29) == 1)
-// 		{
-// 			button(610, 0, 639, 29, 1);
-// 			return 1;
-// 		}
-// 	}
-// }
-
-// int page3()
-// {
-// 	int nx , ny, nb;
-// 	clrmous(ny, nx);
-// 	bar2d(0, 0, 639, 479, BLACK);
-// 	bar2d(610, 0, 639, 29, RED);
-// 	button(610, 0, 639, 29, 0);
-// 	bar_3d(0, 0, 609, 29, LIGHTGRAY, 0);
-// 	printg(10, 5, 0, "part2/page3");
-// 	while(1)
-// 	{
-// 		newmouse(&nx, &ny, &nb);
-// 		if(mouse_press(610, 0, 639, 29) == 1)
-// 		{
-// 			button(610, 0, 639, 29, 1);
-// 			return 1;
-// 		}
-// 	}
-// }
-
-// int page4()
-// {
-// 	int nx , ny, nb;
-// 	clrmous(ny, nx);
-// 	bar2d(0, 0, 639, 479, BLACK);
-// 	bar2d(610, 0, 639, 29, RED);
-// 	button(610, 0, 639, 29, 0);
-// 	bar_3d(0, 0, 609, 29, LIGHTGRAY, 0);
-// 	printg(10, 5, 0, "part3/page4");
-// 	while(1)
-// 	{
-// 		newmouse(&nx, &ny, &nb);
-// 		if(mouse_press(610, 0, 639, 29) == 1)
-// 		{
-// 			button(610, 0, 639, 29, 1);
-// 			return 1;
-// 		}
-// 	}
-// }
-
 int page234(char *prjdir)
 {
 	int pause=0, video=0, nx=MX, ny=MY, nb, mx, my, in=1, sr = 2;
@@ -165,6 +10,7 @@ int page234(char *prjdir)
     int pixnum, i, SP = 0,RO = 0, PO = 0, oldx, oldy, DX = 0, DY = 0;
 	int count = 0, globalnum = 0;
 	PIX pixlist[LISTSIZE];
+	int oldxy[LISTSIZE][2] = {{0, 0}};
 	char filename[10]={0};
 	float A = 0, B = 0,C=0, percent = 1;
 	int X, Y, Z;
@@ -357,6 +203,10 @@ int page234(char *prjdir)
         }
         else if(video == 1)
         {   
+			if(mouse_press(X0, Y0, X0+XSIZE, Y0+YSIZE))
+			{
+				clrmous(nx, ny);
+			}
             if(pause == 0)
             {
                 globalfloat += 1*speed;
@@ -390,31 +240,49 @@ int page234(char *prjdir)
 			//printf("%d\n", pixnum);
 			readdronetxt(filename, pixlist, &pixnum);
 			//clrmous(nx, ny);
-			setfillstyle(SOLID_FILL, BLACK);
-			bar(X0-5, Y0-5, X0+XSIZE+5, Y0+YSIZE+5);
+			//setfillstyle(SOLID_FILL, BLACK);
+			//bar(X0-5, Y0-5, X0+XSIZE+5, Y0+YSIZE+5); //’⁄’÷
 			for(i=0; i<pixnum; i++)
 			{
 				move_3d_p((float)(pixlist[i].x-XSIZE/2), (float)(pixlist[i].y), (float)(pixlist[i].z-YSIZE/2), A, B, &X, &Y, &Z, 0, 0, 0, 1);
-				move_3d_yaxis((float)X, (float)Y, (float)Z, C, &X, &Y, &Z, X0+XSIZE/2+DX, 0, Y0+YSIZE/2+DY, percent*0.8);
+				move_3d_yaxis((float)X, (float)Y, (float)Z, C, &X, &Y, &Z, X0+XSIZE/2+DX, 0, Y0+YSIZE/2+DY, percent*0.7);
 				if((X>X0&&X<X0+XSIZE)&&(Z>Y0&&Z<Y0+YSIZE))
 				{
-					ball_light(X, Z, 2, pixlist[i].color);
+					if(oldxy[i][0] != X|| oldxy[i][1] != Z)
+					{
+						setfillstyle(SOLID_FILL, BLACK);
+						bar(oldxy[i][0]-2, oldxy[i][1]-2, oldxy[i][0]+2, oldxy[i][1]+2);
+						ball_light(X, Z, 2, pixlist[i].color);
+					}
+					oldxy[i][0] = X;
+					oldxy[i][1] = Z;
 				}
 				//printf("%d", pixlist[i].x);
 				//printf(" %d\n", X);
 			}
-			move_3d_p(20, 0, 0, A, B, &X, &Y, &Z, 0, 0, 0, 1);
-			move_3d_yaxis((float)X, (float)Y, (float)Z, C, &X, &Y, &Z, X0+XSIZE/2+DX, 0, Y0+YSIZE/2+DY, 1);
-			setcolor(WHITE);
-			line(X0+XSIZE/2+DX,  Y0+YSIZE/2+DY, X, Z);
-			move_3d_p(0, 20, 0, A, B, &X, &Y, &Z, 0, 0, 0, 1);
-			move_3d_yaxis((float)X, (float)Y, (float)Z, C, &X, &Y, &Z, X0+XSIZE/2+DX, 0, Y0+YSIZE/2+DY, 1);
-			setcolor(WHITE);
-			line(X0+XSIZE/2+DX,  Y0+YSIZE/2+DY, X, Z);
-			move_3d_p(0, 0, 20, A, B, &X, &Y, &Z, 0, 0, 0, 1);
-			move_3d_yaxis((float)X, (float)Y, (float)Z, C, &X, &Y, &Z, X0+XSIZE/2+DX, 0, Y0+YSIZE/2+DY, 1);
-			setcolor(WHITE);
-			line(X0+XSIZE/2+DX,  Y0+YSIZE/2+DY, X, Z);
+			for(i=0; i<pixnum; i++)
+			{
+				move_3d_p((float)(pixlist[i].x-XSIZE/2), (float)(pixlist[i].y), (float)(pixlist[i].z-YSIZE/2), A, B, &X, &Y, &Z, 0, 0, 0, 1);
+				move_3d_yaxis((float)X, (float)Y, (float)Z, C, &X, &Y, &Z, X0+XSIZE/2+DX, 0, Y0+YSIZE/2+DY, percent*0.7);
+				if((X>X0&&X<X0+XSIZE)&&(Z>Y0&&Z<Y0+YSIZE))
+				{
+						ball_light(X, Z, 2, pixlist[i].color);
+				}
+				//printf("%d", pixlist[i].x);
+				//printf(" %d\n", X);
+			}
+			//move_3d_p(20, 0, 0, A, B, &X, &Y, &Z, 0, 0, 0, 1);
+			// move_3d_yaxis((float)X, (float)Y, (float)Z, C, &X, &Y, &Z, X0+XSIZE/2+DX, 0, Y0+YSIZE/2+DY, 1);
+			// setcolor(WHITE);
+			// line(X0+XSIZE/2+DX,  Y0+YSIZE/2+DY, X, Z);
+			// move_3d_p(0, 20, 0, A, B, &X, &Y, &Z, 0, 0, 0, 1);
+			// move_3d_yaxis((float)X, (float)Y, (float)Z, C, &X, &Y, &Z, X0+XSIZE/2+DX, 0, Y0+YSIZE/2+DY, 1);
+			// setcolor(WHITE);
+			// line(X0+XSIZE/2+DX,  Y0+YSIZE/2+DY, X, Z);
+			// move_3d_p(0, 0, 20, A, B, &X, &Y, &Z, 0, 0, 0, 1);
+			// move_3d_yaxis((float)X, (float)Y, (float)Z, C, &X, &Y, &Z, X0+XSIZE/2+DX, 0, Y0+YSIZE/2+DY, 1);
+			// setcolor(WHITE);
+			// line(X0+XSIZE/2+DX,  Y0+YSIZE/2+DY, X, Z);
 			//A+=0.01;
 			//B+=0.01;
 			//getch();
@@ -423,7 +291,7 @@ int page234(char *prjdir)
 			}
 			chdir("..");
 			}
-			if(globalnum == count)
+			if(globalnum == count-1)
 			{
 				globalnum = 0;
                 globalfloat = 0;
@@ -455,7 +323,7 @@ int page234(char *prjdir)
 		}
         oldx = nx;
 		oldy = ny;
-		delay(10);
+		delay(7);
     }
     return 1;
 }

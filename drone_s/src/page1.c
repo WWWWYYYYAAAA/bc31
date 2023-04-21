@@ -5,8 +5,8 @@ int page1()
 	int nx , ny, nb, temp, part = 1, i, swch=0;
 	int mousig[10] = {0};
 	int nylist[10] = {0};
-	int style[5] = {0, 2, 0, 0, 1}, filenum=0, frnum=0, filevect=0, dronenum;
-	char prjlist[3][20] = {"prj", "prj", "prj"};
+	int style[5] = {0, 2, 0, 0, 1}, filenum=0, filevect=0, dronenum=0;
+	char prjlist[3][20] = {"EPRJ1", "EPRJ2", "EPRJ3"};
 	char * prjvect, name[20] = {0};
 	float signal1;
 	PIX dronelist[LISTSIZE];
@@ -33,16 +33,20 @@ int page1()
 
 	//初始化小窗
 	prjvect = prjlist[part-1];
-	openconf(prjvect, &filenum, &frnum);
+	filenum = getnum(prjvect);
 	if(swch++%BLANK==0)
 		filevect ++;
 	if(chdir(prjvect)==0)
 	{
+		if(chdir("output")==0)
+		{
 		formatname(filevect, name);
-		stream_read(name, dronelist, &dronenum);
+		readdronetxt(name, dronelist, &dronenum);
 		for(i=0; i<dronenum; i++)
 		{
-			ball((dronelist[i].x)*SCALE+XLS, (dronelist[i].z)*SCALE+YLS, 1, dronelist[i].color);
+			ball_base((dronelist[i].x)*SCALE+XLS, (dronelist[i].z)*SCALE+YLS, 1, dronelist[i].color);
+		}
+		chdir("..");
 		}
 		chdir("..");
 	}
@@ -54,7 +58,7 @@ int page1()
 			part = 1;
 			//更新小窗向量
 			prjvect = prjlist[part-1];
-			openconf(prjvect, &filenum, &frnum);
+			filenum = getnum(prjvect);
 			filevect = 0;
 			swch = 0;
 			//更新小窗向量
@@ -67,7 +71,7 @@ int page1()
 			part = 2;
 			//更新小窗向量
 			prjvect = prjlist[part-1];
-			openconf(prjvect, &filenum, &frnum);
+			filenum = getnum(prjvect);
 			filevect = 0;
 			swch = 0;
 			//更新小窗向量
@@ -80,7 +84,7 @@ int page1()
 			part = 3;
 			//更新小窗向量
 			prjvect = prjlist[part-1];
-			openconf(prjvect, &filenum, &frnum);
+			filenum = getnum(prjvect);
 			filevect = 0;
 			swch = 0;
 			//更新小窗向量
@@ -101,22 +105,31 @@ int page1()
 		{
 			if(swch++%BLANK==0)
 			{
-				filevect ++;
+				filevect += 50;
 				swch = 1;
+			if(filevect >= filenum)
+			{
+				filevect = 1;
 			}
 			if(chdir(prjvect)==0)
 			{
-				//printf("%s\n", name);
-				formatname(filevect, name);
-				stream_read(name, dronelist, &dronenum);
-				bar2d(442, 55, 637, 200, BLACK);
-				for(i=0; i<dronenum; i++)
+				if(chdir("output")==0)
 				{
-					ball((dronelist[i].x)*SCALE+XLS, (dronelist[i].z)*SCALE+YLS, 1, dronelist[i].color);
+					formatname(filevect, name);
+					//stream_read(name, dronelist, &dronenum);
+					readdronetxt(name, dronelist, &dronenum);
+					bar2d(442, 55, 637, 200, BLACK);
+					for(i=0; i<dronenum; i++)
+					{
+						ball_base((dronelist[i].x)*SCALE+XLS, (dronelist[i].z)*SCALE+YLS, 1, dronelist[i].color);
+					}
+					chdir("..");
 				}
+				//printf("%s\n", name);
 				chdir("..");
 			}
-			if(filevect == filenum)
+			}
+			if(filevect >= filenum)
 			{
 				filevect = 1;
 			}
@@ -146,10 +159,11 @@ int page1()
 			// break;
 			case 3:
 			//bar2d(442, 55, 637, 200, BLACK);
-			printg(130, 40, 0, "part %d", part);
+			//printg(130, 40, 0, "part %d", part);
 			if(mouse_press(442, 24, 472, 54) == 1)
 			{
 				button(442, 24, 472, 54, mousig[3]);
+				clrmous(nx, ny);
 				return part+1;
 			}
 			break;
