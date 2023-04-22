@@ -36,7 +36,8 @@ int page1()
 	printg_cn(130, 40, BLACK, style1, "%z %z", "第一部分", "回顾历史");
 	//华中科技大学见证了中国高教事业的两次大发展，被誉为“新中国高等教育发展的缩影。
 	//早在共和国曙光初亮时，华中工学院于1953年应运而生，于1988年成长为华中理科大学。
-	//而原华中理工大学、同济医科大学、武汉城市建设学院和科技部干部管理学院于2000年合并，在千禧年的新生中，华中科技大学也终于破壳而出。
+	
+//而原华中理工大学、同济医科大学、武汉城市建设学院和科技部干部管理学院于2000年合并，在千禧年的新生中，华中科技大学也终于破壳而出。
 	printg_cn(110, 95, BLACK, style, "    %z", "华中科技大学见证了中国高教事业的两次");
 	printg_cn(110, 115, BLACK, style, "%z,%z", "大发展","被誉为新中国高等教育发展的缩影。");
 	printg_cn(110, 135, BLACK, style, "%z,%z1953%z", "早在共和国曙光初亮时","华中工学院于", "年");
@@ -45,6 +46,10 @@ int page1()
 	printg_cn(110, 195, BLACK, style, "%z2000%z,%z", "学院和科技部干部管理学院于","年合并", "并");
 	printg_cn(110, 215, BLACK, style, "%z,%z", "千禧年的新生中","华中科技大学也终于破壳而");
 	printg_cn(110, 235, BLACK, style, "%z", "出。");
+	printg_cn(450, 220, WHITE, style, "1.%z", "华工于武汉诞生");
+	printg_cn(450, 240, WHITE, style, "2.%z", "华中理工大学诞生");
+	printg_cn(450, 260, WHITE, style, "3.%z", "同济医学院");
+	printg_cn(450, 280, WHITE, style, "4.%z", "华中科技大学合并");
 	//初始化小窗
 	prjvect = prjlist[part-1];
 	filenum = getnum(prjvect);
@@ -78,6 +83,8 @@ int page1()
 			//更新小窗向量
 			setfillstyle(SOLID_FILL, LIGHTGRAY);
 			bar(105, 40, 435, 470);
+			setfillstyle(SOLID_FILL, DARKGRAY);
+			bar(445, 210, 615, 470);
 			printg_cn(130, 40, BLACK, style1, "%z %z", "第一部分", "回顾历史");
 			printg_cn(110, 95, BLACK, style, "    %z", "华中科技大学见证了中国高教事业的两次");
 			printg_cn(110, 115, BLACK, style, "%z,%z", "大发展","被誉为新中国高等教育发展的缩影。");
@@ -87,6 +94,10 @@ int page1()
 			printg_cn(110, 195, BLACK, style, "%z2000%z,%z", "学院和科技部干部管理学院于","年合并", "并");
 			printg_cn(110, 215, BLACK, style, "%z,%z", "千禧年的新生中","华中科技大学也终于破壳而");
 			printg_cn(110, 235, BLACK, style, "%z", "出。");
+			printg_cn(450, 220, WHITE, style, "1.%z", "华工于武汉诞生");
+			printg_cn(450, 240, WHITE, style, "2.%z", "华中理工大学诞生");
+			printg_cn(450, 260, WHITE, style, "3.%z", "同济医学院");
+			printg_cn(450, 280, WHITE, style, "4.%z", "华中科技大学合并");
 			//printg_cn(110, 135, BLACK, style, "%z", "");
 		}
 		else if(mouse_press(0, 60, 98, 99) == 1)
@@ -101,6 +112,8 @@ int page1()
 			//更新小窗向量
 			setfillstyle(SOLID_FILL, LIGHTGRAY);
 			bar(105, 40, 435, 470);
+			setfillstyle(SOLID_FILL, DARKGRAY);
+			bar(445, 210, 615, 470);
 			printg_cn(130, 40, BLACK, style1, "%z %z", "第二部分", "着眼当下");
 			printg_cn(110, 95, BLACK, style, "    %z,%z,%z,%z", "校园树木葱茏","碧草如茵","环境优雅","景色");
 			printg_cn(110, 115, BLACK, style, "%z,%z", "秀丽","被誉为“森林式大学”。学校教学科研");
@@ -112,6 +125,13 @@ int page1()
 			printg_cn(110, 235, BLACK, style, "%z,%z,%z", "建设目标按照“应用领先","基础突破","协调发展");
 			printg_cn(110, 255, BLACK, style, "%z,%z,", "”的科技发展方略","构建起了覆盖基础研究层");
 			printg_cn(110, 275, BLACK, style, "%z", "技术开发层三个层次的科技创新体系。");
+			printg_cn(450, 220, WHITE, style, "1.%z", "南大门");
+			printg_cn(450, 240, WHITE, style, "2.%z", "校史馆");
+			printg_cn(450, 260, WHITE, style, "3.%z", "图书馆");
+			printg_cn(450, 280, WHITE, style, "4.%z", "华中科技大学校徽");
+			printg_cn(450, 300, WHITE, style, "5.%z", "校训");
+			printg_cn(450, 320, WHITE, style, "6.AIA%z", "院徽");
+			printg_cn(450, 340, WHITE, style, "7.70%z", "周年校庆");
 		}
 		else if(mouse_press(0, 100, 98, 139) == 1)
 		{
@@ -125,6 +145,8 @@ int page1()
 			//更新小窗向量
 			setfillstyle(SOLID_FILL, LIGHTGRAY);
 			bar(105, 40, 435, 470);
+			setfillstyle(SOLID_FILL, DARKGRAY);
+			bar(445, 210, 615, 470);
 			printg_cn(130, 40, BLACK, style1, "%z %z", "第三部分", "展望未来");
 			printg_cn(110, 95, BLACK, style, "   %z,%z,%z,", "数十年冒雨冲风","我们脚踏实地", "砥砺前行");
 			printg_cn(110, 115, BLACK, style, "%z,%z", "我们建立未来技术学院", "培养具有创新精神和");
@@ -133,11 +155,13 @@ int page1()
 			printg_cn(110, 175, BLACK, style, "%z", "发展和人类进步贡献力量。引进和培养一流的");
 			printg_cn(110, 195, BLACK, style, "%z,%z", "教师团队","打造国际化的学术氛围和交流平台。");
 			printg_cn(110, 215, BLACK, style, "%z,%z", "携手共进","走过山水又一程。");
-
-
-
-
-			
+			printg_cn(450, 220, WHITE, style, "1.%z", "合成大无人机");
+			printg_cn(450, 240, WHITE, style, "2.%z", "火箭腾飞");
+			printg_cn(450, 260, WHITE, style, "3.%z", "华中科技大星");
+			printg_cn(450, 280, WHITE, style, "4.%z", "我爱华科");
+			printg_cn(450, 300, WHITE, style, "5.%z,", "与共和国同行");
+			printg_cn(450, 320, WHITE, style, "  %z", "与新时代共进");
+			printg_cn(450, 340, WHITE, style, "6.%z", "天安门欢庆");
 		}
 		else if(mouse_press(2, 440, 98, 477) == 1)
 		{
