@@ -373,6 +373,9 @@ int filelink(int *nx, int *ny, int *nb)
 			}
 			tdpreviwer(nx, ny, nb, pixlist1, pixnum1);
 			{
+				setfillstyle(SOLID_FILL, RED);
+				bar(2 , 440, 118, 477);
+				button(2 , 440, 118, 477, 0);
 				printg_cn(30, 55, 0, style, "%Z", "新建工程"); 
 				printg_cn(30, 95, 0, style, "%Z", "添加文件"); 
 				printg_cn(30, 135, 0, style, "%Z", "撤销添加");
