@@ -48,7 +48,7 @@ int play(char * prjdir)
                     {
                         
                         float A = 1.0 * i * STEP[stp].dA, B = 1.0 * i * STEP[stp].dB, C = 1.0 * i * STEP[stp].dC;
-                        int DX = STEP[stp].dx, DY = STEP[stp].dy, DZ = STEP[stp].dz;
+                        int DX = STEP[stp].dx*i, DY = STEP[stp].dy*i, DZ = STEP[stp].dz*i;
                         setfillstyle(SOLID_FILL, BLACK);
                         bar(50, 30, 590, 450);
                         newmouse(&nx, &ny, &nb);
@@ -103,7 +103,7 @@ int play(char * prjdir)
                     {
                         
                         float A = 1.0 * i * STEP[stp].dA, B = 1.0 * i * STEP[stp].dB, C = 1.0 * i * STEP[stp].dC;
-                        int DX = STEP[stp].dx, DY = STEP[stp].dy, DZ = STEP[stp].dz;
+                        int DX = STEP[stp].dx*i, DY = STEP[stp].dy*i, DZ = STEP[stp].dz*i;
                         setfillstyle(SOLID_FILL, BLACK);
                         bar(50, 30, 590, 450);
                         newmouse(&nx, &ny, &nb);
@@ -204,7 +204,7 @@ int playtofile(char * prjdir)
                     for(i=0; i<STEP[stp].cycles; i++) //frame
                     {
                         float A = 1.0 * i * STEP[stp].dA, B = 1.0 * i * STEP[stp].dB, C = 1.0 * i * STEP[stp].dC;
-                        int DX = STEP[stp].dx, DY = STEP[stp].dy, DZ = STEP[stp].dz;
+                        int DX = STEP[stp].dx*i, DY = STEP[stp].dy*i, DZ = STEP[stp].dz*i;
                         if(chdir("output") == 0)
                         {
                         outnum++;
@@ -288,7 +288,7 @@ int playtofile(char * prjdir)
                     for(i=0; i<STEP[stp].cycles; i++) //frame
                     {
                         float A = 1.0 * i * STEP[stp].dA, B = 1.0 * i * STEP[stp].dB, C = 1.0 * i * STEP[stp].dC;
-                        int DX = STEP[stp].dx, DY = STEP[stp].dy, DZ = STEP[stp].dz;
+                        int DX = STEP[stp].dx*i, DY = STEP[stp].dy*i, DZ = STEP[stp].dz*i;
                         if(chdir("output")==0)
                         {
                         outnum++;
