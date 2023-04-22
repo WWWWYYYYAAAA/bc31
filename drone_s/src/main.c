@@ -54,8 +54,16 @@ void main()
 			cleardevice();
 			page = page6();
 		break;
+		case -2:
+			printf("Program Closed...\n");
+			delay(1000);
+			exit(0);
+		break;
 		default:
-			exit(1);
+			printf("no page\n");
+			delay(1000);
+			exit(0);
+		break;
 		}
 		/*
 		mouse_signal(mousig);
