@@ -75,8 +75,13 @@ int page234(char *prjdir)
         {
             button(600, 40, 639, 99, 1);
             video = 0;
-            globalnum = 0;
-            globalfloat = 0;
+            globalnum = 1;
+            globalfloat = 1;
+			setfillstyle(SOLID_FILL, BLACK);
+            bar(70, 400, 530, 420);
+            setfillstyle(SOLID_FILL, LIGHTGRAY);
+            bar(80, 405, 520, 410);
+            ball(80, 408, 5, DARKGRAY);
         }
         else if(mouse_press(600, 100, 639, 139) == 1)	//RO
 		{
@@ -170,12 +175,14 @@ int page234(char *prjdir)
         }
         else if(mouse_press_sup(80, 400, 520, 420, &mx, &my) == 1)  //进度条
         {
+			clrmous(nx, ny);
             globalfloat = 1.0 * (mx-80) / 440 * count;
             setfillstyle(SOLID_FILL, BLACK);
             bar(70, 400, 530, 420);
             setfillstyle(SOLID_FILL, LIGHTGRAY);
             bar(80, 405, 520, 410);
             ball(80+440.0*globalfloat/count, 408, 5, DARKGRAY);
+			newmouse(&nx, &ny, &nb);
         }
         else if(mouse_press_sup(320, 445, 490, 455, &mx, &my) == 1)  //倍速
         {
@@ -203,10 +210,6 @@ int page234(char *prjdir)
         }
         else if(video == 1)
         {   
-			if(mouse_press(X0, Y0, X0+XSIZE, Y0+YSIZE))
-			{
-				clrmous(nx, ny);
-			}
             if(pause == 0)
             {
                 globalfloat += 1*speed;
@@ -219,13 +222,19 @@ int page234(char *prjdir)
                 {
                     globalnum = count;
                 }
-                //进度条
+                //
+				clrmous(nx, ny);
                 setfillstyle(SOLID_FILL, BLACK);
                 bar(70, 400, 530, 420);
                 setfillstyle(SOLID_FILL, LIGHTGRAY);
                 bar(80, 405, 520, 410);
                 ball(80+440.0*globalnum/count, 408, 5, DARKGRAY);
+				newmouse(&nx, &ny, &nb);
             }
+			if(mouse_press(X0, Y0, X0+XSIZE, Y0+YSIZE))
+			{
+				clrmous(nx, ny);
+			}
 			if(chdir(prjdir)==0)
 			{
 			if(chdir("output")==0)

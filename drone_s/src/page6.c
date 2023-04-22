@@ -229,12 +229,18 @@ int page6()
                     globalnum = count;
                 }
                 //½ø¶ÈÌõ
+				clrmous(nx, ny);
                 setfillstyle(SOLID_FILL, BLACK);
                 bar(70, 400, 530, 420);
                 setfillstyle(SOLID_FILL, LIGHTGRAY);
                 bar(80, 405, 520, 410);
                 ball(80+440.0*globalnum/count, 408, 5, DARKGRAY);
+				newmouse(&nx, &ny, &nb);
             }
+			if(mouse_press(X0, Y0, X0+XSIZE, Y0+YSIZE))
+			{
+				clrmous(nx, ny);
+			}
 			if(chdir(prjdir)==0)
 			{
 			if(chdir("output")==0)

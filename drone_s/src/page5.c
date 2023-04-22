@@ -277,7 +277,7 @@ int editpic(int *nx, int *ny, int *nb)
 			printg_cn(608, 240, BLACK, style, "PIX");
 			button(600, 260, 639, 299, 0); 	//preview
 			printg_cn(608, 280, BLACK, style, "PRV");
-			button(600, 300, 639, 340, 0); 	//功能栏
+			//button(600, 300, 639, 340, 0); 	//功能栏
 			bar_3d(121, 440, 639, 479, DARKGRAY, 1);
 			commandin(str, "z: ", 130, 455, 20);
 			YL = atoi(str);
@@ -429,10 +429,6 @@ int editpic(int *nx, int *ny, int *nb)
 							ball(pixlist[s].x+XOFF, pixlist[s].z+YOFF, 3, pixlist[s].color);
 						}
 					}
-				}
-				else if(mouse_press(600, 300, 639, 340) == 1)
-				{
-					button(600, 300, 639, 340, 1);
 				}
 				else if(mouse_press(2, 440, 118, 477) == 1) //退出
 				{	
